@@ -1,10 +1,15 @@
 version: '3.3'
 
+x-build: &build
+  build:
+    context: .
+    dockerfile: Dockerfile
+    args:
+      VERSION: "v0.1.1"
+
 services:
   firm_demo1:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    <<: *build
     volumes:
     - type: bind
       source: ./settings/settings_firm_a.ini
@@ -21,9 +26,7 @@ services:
       - ./cross_app_bin settings.ini data.csv result/result1.csv 5
 
   firm_demo2:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    <<: *build
     volumes:
     - type: bind
       source: ./settings/settings_firm_b.ini
