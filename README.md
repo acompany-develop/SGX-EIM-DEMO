@@ -113,6 +113,51 @@ $ ./cross_app_bin <設定ファイルのパス> <入力データのパス> <出�
 | $134$ |エラーが発生しました． |
 
 
+### エラーメッセージ
+上記以外のエラーメッセージが出るケース．  
+原因を示す行は必ず```ERROR:```で始まっている
+
+**引数の個数が間違っている場合**
+```bash
+ERROR: Usage: ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
+```
+**threshold として非負整数以外を入力した場合**
+```bash
+ERROR: Threshold must be nonnegative integer.
+```
+**input_filename として存在しないfileのpathを指定した場合**
+```bash
+ERROR: Input file does not exist.
+```
+**settings_fileの内容に不備があった場合**
+```bash
+ INFO: Start settings load.
+ERROR: # 不備の内容に対応するメッセージ
+```
+不備がなかった場合は以下のように表示されます．
+```bash
+ INFO: Start settings load.
+ INFO: Successfully loaded settings.
+```
+**RA 失敗時**
+```bash
+ERROR: RA failed. Destruct RA context and Exit program.
+```
+この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なります．
+erverが落ちている状態で投げた場合
+```bash
+ERROR: Unknown error. Probably ISV server is down.
+```
+settings_fileの`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
+```bash
+ERROR: Refused RA.
+```
+settings_fileの`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
+```bash
+ERROR: Failed to process msg2 and obtain msg3.
+```
+
+
 # 実行方法
 
 各事業者ごとにFirmを起動させてクロス集計表を計算する．
@@ -239,47 +284,4 @@ firm_demo2-1  | ERROR: Fail eim request with 'Threshold values inputted are diff
 
 ```bash
 firm_demo2-1  | ERROR: Fail eim request with 'This firm is already set.'.
-```
-
-## エラーメッセージ
-上記以外のエラーメッセージが出るケース．  
-原因を示す行は必ず```ERROR:```で始まっている
-### 引数の個数が間違っている場合
-```bash
-ERROR: Usage: ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
-```
-### threshold として非負整数以外を入力した場合
-```bash
-ERROR: Threshold must be nonnegative integer.
-```
-### input_filename として存在しないfileのpathを指定した場合
-```bash
-ERROR: Input file does not exist.
-```
-### settings_fileの内容に不備があった場合
-```bash
- INFO: Start settings load.
-ERROR: # 不備の内容に対応するメッセージ
-```
-不備がなかった場合は以下のように表示されます．
-```bash
- INFO: Start settings load.
- INFO: Successfully loaded settings.
-```
-### RA 失敗時
-```bash
-ERROR: RA failed. Destruct RA context and Exit program.
-```
-この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なります．
-#### serverが落ちている状態で投げた場合
-```bash
-ERROR: Unknown error. Probably ISV server is down.
-```
-#### settings_fileの`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
-```bash
-ERROR: Refused RA.
-```
-#### settings_fileの`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
-```bash
-ERROR: Failed to process msg2 and obtain msg3.
 ```
