@@ -77,7 +77,7 @@ IAS_SECONDARY_SUBSCRIPTION_KEY =
 ## 動作仕様
 
 ### 引数
-```bash
+```console
 $ ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
 ```
 
@@ -157,7 +157,7 @@ ERROR: Failed to process msg2 and obtain msg3.
 実行するためのバイナリとIASのReport署名ルートCA証明書ファイルが必要なのでそれぞれwgetなどでDownloadする．
 これらのファイルは同一のディレクトリに配置する．
 
-```bash
+```console
 $ export VERSION=<任意のバージョンを指定>
 $ wget https://certificates.trustedservices.intel.com/Intel_SGX_Attestation_RootCA.pem
 $ wget https://github.com/acompany-develop/SGX-EIM-DEMO/releases/download/${VERSION}/SGX-EIM-v${VERSION}-linux-x64.zip
@@ -166,14 +166,14 @@ $ unzip SGX-EIM-v${VERSION}-linux-x64.zip
 
 unzipすると同じディレクトリ内に`cross_app_bin`という実行バイナリがあるので以下のコマンドで実行する．
 
-```bash
+```console
 # 事業者A
 $ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 ```
 
 ## docker-compose上でバイナリを実行する場合
 本リポジトリ内に`docker-compose.yaml`のサンプルがあるため，Cloneしたのちこれを編集して実行する．
-```bash
+```console
 # リポジトリのClone
 $ git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
 ```
@@ -209,7 +209,7 @@ services:
 
 準備ができたらdocker composeコマンドで起動する．
 
-```bash
+```console
 $ docker-compose up firm_demo
 ```
 
@@ -219,7 +219,7 @@ $ docker-compose up firm_demo
 
 別々のterminalから以下のコマンドを実行すると，正常に処理が完了すると`result/result{1,2}.csv`に出力データが生成される．
 
-```bash
+```console
 # 事業者A
 $ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 # 事業者B
@@ -240,7 +240,7 @@ services:
     # 中略(パスはfirm_demo1と異なるはずなので注意)
 ```
 
-```bash
+```console
 $ docker-compose up firm_demo1 firm_demo2
 ```
 
