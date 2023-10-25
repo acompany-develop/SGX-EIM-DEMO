@@ -213,9 +213,9 @@ services:
 $ docker-compose up firm_demo
 ```
 
-## クロス集計表生成のデモ実行
+## デモ
 
-## 直接バイナリで事業者A,BのFirmを実行する場合
+### 直接バイナリで事業者A,BのFirmを実行する場合
 
 別々のterminalから以下のコマンドを実行すると，正常に処理が完了すると`result/result{1,2}.csv`に出力データが生成される．
 
