@@ -43,12 +43,10 @@
 ISV_URL = ; 検証用環境の`ISV_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
 
 ; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
-; 両値の抽出には付属のsubtools/mr-extractを使用できる。詳細はReadme参照。
 REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
 REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください。
 
 ; 署名・検証で使用するSPの256bit ECDSA秘密鍵。
-; 付属のsp-ecdsa-keygen補助ツールで取得する。詳細はREADME参照。
 SP_PRIVATE_KEY = ; 検証用環境の`SP_PRIVATE_KEY`が必要な場合はAcompanyの担当者に問い合わせてください。
 ```
 
@@ -150,10 +148,10 @@ ERROR: Failed to process msg2 and obtain msg3.
 # 実行方法
 
 各事業者ごとにFirmを起動させてクロス集計表を計算する．
+実行方法はバイナリを実行する方法と、Dockerを利用する方法の2パターンある．
 
 **※ 実際にISVに対して通信しにいくため事前にISVが起動していることをISV管理者に確認する．**
 
-実行方法はバイナリを実行する方法と、Dockerを利用する方法の2パターンある．
 
 ## 直接バイナリを実行する場合
 実行するためのバイナリとIASのReport署名ルートCA証明書ファイルが必要なのでそれぞれwgetなどでDownloadする．
