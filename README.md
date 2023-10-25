@@ -1,8 +1,9 @@
 # SGX-EIM-DEMO
 # 用語
 
-| ISV | SGXに関するリクエストを受け付けるServer |
+| 用語 | 説明 |
 | --- | --- |
+| ISV | SGXに関するリクエストを受け付けるServer |
 | Firm | ISVに対してリクエストを送るClient |
 | RA | Remote Attestation，SGXが安全であることを示すためのプロトコル |
 
@@ -27,22 +28,14 @@
 - 両事業者の属性パターン数が100以下
 
 # 前準備
-## リポジトリのClone
-
-実行ファイルはgithubの[本リポジトリ](https://github.com/acompany-develop/SGX-EIM-DEMO)で公開されているためcloneする．
-
-```bash
-git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
-```
 
 ## 設定ファイルの用意
 
 通信や認証の設定を記載した設定ファイルを用意する．設定ファイルは事業者ごとに用意する．ファイル名や配置場所は何でも良い．フォーマットは以下の設定ファイルを参照．
-    
-[settings_firm_a.ini](/settings/settings_firm_a.ini)
-[settings_firm_b.ini](/settings/settings_firm_b.ini)
+- [settings_firm_a.ini](/settings/settings_firm_a.ini)
+- [settings_firm_b.ini](/settings/settings_firm_b.ini)
 
-以下のプリセットされた設定ファイルのうち、以下の値はISVに依存して決まるため、検証用ISVを利用したい場合はAcompanyの担当者から配布された値を設定する．
+設定ファイルのうち以下の値はISVに依存して決まるため、検証用ISVを利用したい場合はAcompanyの担当者から配布された値を設定する．
 
 ```ini
 [sp]
@@ -50,12 +43,10 @@ git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
 ISV_URL = ; 検証用環境の`ISV_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
 
 ; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
-; 両値の抽出には付属のsubtools/mr-extractを使用できる。詳細はReadme参照。
 REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
 REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください。
 
 ; 署名・検証で使用するSPの256bit ECDSA秘密鍵。
-; 付属のsp-ecdsa-keygen補助ツールで取得する。詳細はREADME参照。
 SP_PRIVATE_KEY = ; 検証用環境の`SP_PRIVATE_KEY`が必要な場合はAcompanyの担当者に問い合わせてください。
 ```
 
@@ -79,31 +70,27 @@ IAS_SECONDARY_SUBSCRIPTION_KEY =
 
 
 ## データの用意
-
-各事業者ごとにクロス集計表を取得するためのデータを用意する．ファイル名や配置場所は何でも良い．
-
-以下のファイルは動作確認用のサンプルデータである．自前のデータを用意する場合は[入出力データ仕様](docs/data_in_out.md)に従ったデータが必要である．
-
+各事業者ごとにクロス集計表を取得するためのデータを用意する．ファイル名や配置場所は何でも良い． データの仕様は[入出力データ仕様](docs/data_in_out.md)を参照する．
 
 # 使い方
 
 ## 動作仕様
 
 ### 引数
-```bash
-$ ./cross_app_bin <設定ファイルのパス> <入力データのパス> <出力データのパス> <閾値>
+```console
+$ ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
 ```
 
-- <設定ファイルのパス: 文字列>
+- <setting_file_name: 文字列>
   - [設定ファイルの用意](#設定ファイルの用意)で用意した`.ini`設定ファイルのパスを指定
-- <入力データのパス: 文字列>
+- <intput_filename: 文字列>
   - [データの用意](#データの用意)で用意した`.csv`ファイルのパスを指定
-- <出力データのパス: 文字列>
+- <output_filename: 文字列>
   - 突合して生成された`.csv`形式のクロス集計表を出力するパスを指定
-- <閾値: 正の整数>
-  - NOTE: Firm間で同じ値を設定しないとエラーになります．
-  - クロス集計後のセルの値を開示する閾値`k`を設定する．`k`未満の値は全て`0`で置き換えられる．
-  - 入出力例は[/docs/data_in_out.md#集計数が指定した閾値に満たない](/docs/data_in_out.md#集計数が指定した閾値に満たない)を参照．
+- <threshold: 正の整数>
+  - NOTE: Firm間で同じ値を設定しないとエラーになる
+  - クロス集計後のセルの値を開示する閾値`k`を設定する．`k`未満の値は全て`0`で置き換えられる
+  - 入出力例は[/docs/data_in_out.md#集計数が指定した閾値に満たない](/docs/data_in_out.md#集計数が指定した閾値に満たない)を参照
 
 ### ステータスコード
 
@@ -114,8 +101,7 @@ $ ./cross_app_bin <設定ファイルのパス> <入力データのパス> <出�
 
 
 ### エラーメッセージ
-[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．  
-原因を示す行は必ず```ERROR:```で始まっている．
+[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は必ず`ERROR:`で始まっている．
 
 **引数の個数が間違っている場合**
 ```bash
@@ -134,7 +120,7 @@ ERROR: Input file does not exist.
  INFO: Start settings load.
 ERROR: # 不備の内容に対応するメッセージ
 ```
-不備がなかった場合は以下のように表示されます．
+不備がなかった場合は以下のように表示される．
 ```bash
  INFO: Start settings load.
  INFO: Successfully loaded settings.
@@ -143,16 +129,17 @@ ERROR: # 不備の内容に対応するメッセージ
 ```bash
 ERROR: RA failed. Destruct RA context and Exit program.
 ```
-この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なります．
-erverが落ちている状態で投げた場合
+この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なる．
+
+ISVが落ちている状態で投げた場合
 ```bash
 ERROR: Unknown error. Probably ISV server is down.
 ```
-settings_fileの`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
+`settings_file`の`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
 ```bash
 ERROR: Refused RA.
 ```
-settings_fileの`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
+`settings_file`の`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
 ```bash
 ERROR: Failed to process msg2 and obtain msg3.
 ```
@@ -161,16 +148,16 @@ ERROR: Failed to process msg2 and obtain msg3.
 # 実行方法
 
 各事業者ごとにFirmを起動させてクロス集計表を計算する．
+実行方法はバイナリを実行する方法と、Dockerを利用する方法の2パターンある．
 
 **※ 実際にISVに対して通信しにいくため事前にISVが起動していることをISV管理者に確認する．**
 
-実行方法はバイナリを実行する方法と、Dockerを利用する方法の2パターンある．
 
 ## 直接バイナリを実行する場合
+実行するためのバイナリとIASのReport署名ルートCA証明書ファイルが必要なのでそれぞれwgetなどでDownloadする．
+これらのファイルは同一のディレクトリに配置する．
 
-まず，IASのReport署名ルートCA証明書ファイルが必要なので下記コマンドでdownloadし，実行ファイルと同じディレクトリに配置する．
-
-```bash
+```console
 $ export VERSION=<任意のバージョンを指定>
 $ wget https://certificates.trustedservices.intel.com/Intel_SGX_Attestation_RootCA.pem
 $ wget https://github.com/acompany-develop/SGX-EIM-DEMO/releases/download/${VERSION}/SGX-EIM-v${VERSION}-linux-x64.zip
@@ -179,15 +166,18 @@ $ unzip SGX-EIM-v${VERSION}-linux-x64.zip
 
 unzipすると同じディレクトリ内に`cross_app_bin`という実行バイナリがあるので以下のコマンドで実行する．
 
-```bash
+```console
 # 事業者A
 $ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 ```
 
 ## docker-compose上でバイナリを実行する場合
-
-Step1でCloneしたSGX-EIM-DEMOリポジトリ内に`docker-compose.yaml`のサンプルがあるためこれを編集して実行する．
-
+本リポジトリ内に`docker-compose.yaml`のサンプルがあるため，Cloneしたのちこれを編集して実行する．
+```console
+# リポジトリのClone
+$ git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
+```
+docker-compose.yaml
 ```yaml
 version: '3.3'
 
@@ -219,7 +209,7 @@ services:
 
 準備ができたらdocker composeコマンドで起動する．
 
-```bash
+```console
 $ docker-compose up firm_demo
 ```
 
@@ -229,7 +219,7 @@ $ docker-compose up firm_demo
 
 別々のterminalから以下のコマンドを実行すると，正常に処理が完了すると`result/result{1,2}.csv`に出力データが生成される．
 
-```bash
+```console
 # 事業者A
 $ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 # 事業者B
@@ -238,7 +228,7 @@ $ ./cross_app_bin ./settings/settings_firm_b.ini ./data/sample_data2.csv ./resul
 
 ### docker-compose上で事業者A,BのFirmを実行する
 
-docker composeのserviceを1つ増やして同時に起動すれば良い．[SGX-EIM-DEMO/docker-compose.yaml](SGX-EIM-DEMO/docker-compose.yaml)では動作確認用に最初から2つのserviceがあるため以下のコマンドでそのまま実行可能．
+docker composeのserviceを1つ増やして同時に起動すれば良い．[SGX-EIM-DEMO/docker-compose.yaml](docker-compose.yaml)では動作確認用に最初から2つのserviceがあるため以下のコマンドでそのまま実行可能．
 
 ```yaml
 version: '3.3'
@@ -250,7 +240,7 @@ services:
     # 中略(パスはfirm_demo1と異なるはずなので注意)
 ```
 
-```bash
+```console
 $ docker-compose up firm_demo1 firm_demo2
 ```
 
@@ -261,9 +251,9 @@ $ docker-compose up firm_demo1 firm_demo2
 クロス集計表は2つの事業者がデータを送信して初めて計算が行われる．そのため，片方の事業者だけが処理を実行した場合，永遠に計算が終わらず待機し続けてしまう．その場合は下記のログが出続けることになる．
 
 ```bash
-firm_demo1-1  |  INFO: ==============================================
-firm_demo1-1  |  INFO: Get Execute Status
-firm_demo1-1  |  INFO: ==============================================
+INFO: ==============================================
+INFO: Get Execute Status
+INFO: ==============================================
 ```
 
 ### 両事業者が異なる設定で動作させることはできない
@@ -271,17 +261,17 @@ firm_demo1-1  |  INFO: ==============================================
 クロス集計表の閾値は自由に設定することができるが，両事業者が異なる値を設定した場合は処理が失敗する．その場合は次のいずれかのログが出る．
 
 ```bash
-firm_demo1-1  | ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
+ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
 ```
 
 ```bash
-firm_demo2-1  | ERROR: Fail eim request with 'Threshold values inputted are different.'.
+ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ```
 
-### 同一事業者が同時に実行するとエラーが出ます
+### 同一事業者は同時に実行できない
 
 リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，失敗する．その場合は次のログが出る．
 
 ```bash
-firm_demo2-1  | ERROR: Fail eim request with 'This firm is already set.'.
+ERROR: Fail eim request with 'This firm is already set.'.
 ```
