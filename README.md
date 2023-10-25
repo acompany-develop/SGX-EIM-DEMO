@@ -35,7 +35,7 @@
 - [settings_firm_a.ini](/settings/settings_firm_a.ini)
 - [settings_firm_b.ini](/settings/settings_firm_b.ini)
 
-以下のプリセットされた設定ファイルのうち、以下の値はISVに依存して決まるため、検証用ISVを利用したい場合はAcompanyの担当者から配布された値を設定する．
+設定ファイルのうち以下の値はISVに依存して決まるため、検証用ISVを利用したい場合はAcompanyの担当者から配布された値を設定する．
 
 ```ini
 [sp]
@@ -90,9 +90,9 @@ $ ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <thres
 - <output_filename: 文字列>
   - 突合して生成された`.csv`形式のクロス集計表を出力するパスを指定
 - <threshold: 正の整数>
-  - NOTE: Firm間で同じ値を設定しないとエラーになります．
-  - クロス集計後のセルの値を開示する閾値`k`を設定する．`k`未満の値は全て`0`で置き換えられる．
-  - 入出力例は[/docs/data_in_out.md#集計数が指定した閾値に満たない](/docs/data_in_out.md#集計数が指定した閾値に満たない)を参照．
+  - NOTE: Firm間で同じ値を設定しないとエラーになる
+  - クロス集計後のセルの値を開示する閾値`k`を設定する．`k`未満の値は全て`0`で置き換えられる
+  - 入出力例は[/docs/data_in_out.md#集計数が指定した閾値に満たない](/docs/data_in_out.md#集計数が指定した閾値に満たない)を参照
 
 ### ステータスコード
 
@@ -253,9 +253,9 @@ $ docker-compose up firm_demo1 firm_demo2
 クロス集計表は2つの事業者がデータを送信して初めて計算が行われる．そのため，片方の事業者だけが処理を実行した場合，永遠に計算が終わらず待機し続けてしまう．その場合は下記のログが出続けることになる．
 
 ```bash
-firm_demo1-1  |  INFO: ==============================================
-firm_demo1-1  |  INFO: Get Execute Status
-firm_demo1-1  |  INFO: ==============================================
+INFO: ==============================================
+INFO: Get Execute Status
+INFO: ==============================================
 ```
 
 ### 両事業者が異なる設定で動作させることはできない
@@ -263,11 +263,11 @@ firm_demo1-1  |  INFO: ==============================================
 クロス集計表の閾値は自由に設定することができるが，両事業者が異なる値を設定した場合は処理が失敗する．その場合は次のいずれかのログが出る．
 
 ```bash
-firm_demo1-1  | ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
+ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
 ```
 
 ```bash
-firm_demo2-1  | ERROR: Fail eim request with 'Threshold values inputted are different.'.
+ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ```
 
 ### 同一事業者は同時に実行できない
@@ -275,5 +275,5 @@ firm_demo2-1  | ERROR: Fail eim request with 'Threshold values inputted are diff
 リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，失敗する．その場合は次のログが出る．
 
 ```bash
-firm_demo2-1  | ERROR: Fail eim request with 'This firm is already set.'.
+ERROR: Fail eim request with 'This firm is already set.'.
 ```
