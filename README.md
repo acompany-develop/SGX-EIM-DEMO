@@ -1,8 +1,9 @@
 # SGX-EIM-DEMO
 # 用語
 
-| ISV | SGXに関するリクエストを受け付けるServer |
+| 用語 | 説明 |
 | --- | --- |
+| ISV | SGXに関するリクエストを受け付けるServer |
 | Firm | ISVに対してリクエストを送るClient |
 | RA | Remote Attestation，SGXが安全であることを示すためのプロトコル |
 
@@ -38,9 +39,8 @@ git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
 ## 設定ファイルの用意
 
 通信や認証の設定を記載した設定ファイルを用意する．設定ファイルは事業者ごとに用意する．ファイル名や配置場所は何でも良い．フォーマットは以下の設定ファイルを参照．
-    
-[settings_firm_a.ini](/settings/settings_firm_a.ini)
-[settings_firm_b.ini](/settings/settings_firm_b.ini)
+- [settings_firm_a.ini](/settings/settings_firm_a.ini)
+- [settings_firm_b.ini](/settings/settings_firm_b.ini)
 
 以下のプリセットされた設定ファイルのうち、以下の値はISVに依存して決まるため、検証用ISVを利用したい場合はAcompanyの担当者から配布された値を設定する．
 
@@ -79,11 +79,7 @@ IAS_SECONDARY_SUBSCRIPTION_KEY =
 
 
 ## データの用意
-
-各事業者ごとにクロス集計表を取得するためのデータを用意する．ファイル名や配置場所は何でも良い．
-
-以下のファイルは動作確認用のサンプルデータである．自前のデータを用意する場合は[入出力データ仕様](docs/data_in_out.md)に従ったデータが必要である．
-
+各事業者ごとにクロス集計表を取得するためのデータを用意する．ファイル名や配置場所は何でも良い． データの仕様は[入出力データ仕様](docs/data_in_out.md)を参照する．
 
 # 使い方
 
@@ -91,16 +87,16 @@ IAS_SECONDARY_SUBSCRIPTION_KEY =
 
 ### 引数
 ```bash
-$ ./cross_app_bin <設定ファイルのパス> <入力データのパス> <出力データのパス> <閾値>
+$ ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
 ```
 
-- <設定ファイルのパス: 文字列>
+- <setting_file_name: 文字列>
   - [設定ファイルの用意](#設定ファイルの用意)で用意した`.ini`設定ファイルのパスを指定
-- <入力データのパス: 文字列>
+- <intput_filename: 文字列>
   - [データの用意](#データの用意)で用意した`.csv`ファイルのパスを指定
-- <出力データのパス: 文字列>
+- <output_filename: 文字列>
   - 突合して生成された`.csv`形式のクロス集計表を出力するパスを指定
-- <閾値: 正の整数>
+- <threshold: 正の整数>
   - NOTE: Firm間で同じ値を設定しないとエラーになります．
   - クロス集計後のセルの値を開示する閾値`k`を設定する．`k`未満の値は全て`0`で置き換えられる．
   - 入出力例は[/docs/data_in_out.md#集計数が指定した閾値に満たない](/docs/data_in_out.md#集計数が指定した閾値に満たない)を参照．
@@ -114,8 +110,7 @@ $ ./cross_app_bin <設定ファイルのパス> <入力データのパス> <出�
 
 
 ### エラーメッセージ
-[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．  
-原因を示す行は必ず```ERROR:```で始まっている．
+[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は必ず`ERROR:`で始まっている．
 
 **引数の個数が間違っている場合**
 ```bash
@@ -134,7 +129,7 @@ ERROR: Input file does not exist.
  INFO: Start settings load.
 ERROR: # 不備の内容に対応するメッセージ
 ```
-不備がなかった場合は以下のように表示されます．
+不備がなかった場合は以下のように表示される．
 ```bash
  INFO: Start settings load.
  INFO: Successfully loaded settings.
@@ -143,16 +138,17 @@ ERROR: # 不備の内容に対応するメッセージ
 ```bash
 ERROR: RA failed. Destruct RA context and Exit program.
 ```
-この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なります．
-erverが落ちている状態で投げた場合
+この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なる．
+
+ISVが落ちている状態で投げた場合
 ```bash
 ERROR: Unknown error. Probably ISV server is down.
 ```
-settings_fileの`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
+`settings_file`の`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
 ```bash
 ERROR: Refused RA.
 ```
-settings_fileの`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
+`settings_file`の`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
 ```bash
 ERROR: Failed to process msg2 and obtain msg3.
 ```
@@ -278,7 +274,7 @@ firm_demo1-1  | ERROR: Fail get execute status with 'Threshold values inputtedar
 firm_demo2-1  | ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ```
 
-### 同一事業者が同時に実行するとエラーが出ます
+### 同一事業者は同時に実行できない
 
 リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，失敗する．その場合は次のログが出る．
 
