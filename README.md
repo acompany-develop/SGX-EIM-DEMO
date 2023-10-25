@@ -200,9 +200,9 @@ version: '3.3'
 
 services:
   firm_demo1:
-		# 中略
+    # 中略
   firm_demo2:
-		# 中略(パスはfirm_demo1と異なるはずなので注意)
+    # 中略(パスはfirm_demo1と異なるはずなので注意)
 ```
 
 ```bash
