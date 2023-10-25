@@ -28,13 +28,6 @@
 - 両事業者の属性パターン数が100以下
 
 # 前準備
-## リポジトリのClone
-
-実行ファイルはgithubの[本リポジトリ](https://github.com/acompany-develop/SGX-EIM-DEMO)で公開されているためcloneする．
-
-```bash
-git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
-```
 
 ## 設定ファイルの用意
 
@@ -163,8 +156,8 @@ ERROR: Failed to process msg2 and obtain msg3.
 実行方法はバイナリを実行する方法と、Dockerを利用する方法の2パターンある．
 
 ## 直接バイナリを実行する場合
-
-まず，IASのReport署名ルートCA証明書ファイルが必要なので下記コマンドでdownloadし，実行ファイルと同じディレクトリに配置する．
+実行するためのバイナリとIASのReport署名ルートCA証明書ファイルが必要なのでそれぞれwgetなどでDownloadする．
+これらのファイルは同一のディレクトリに配置する．
 
 ```bash
 $ export VERSION=<任意のバージョンを指定>
@@ -181,9 +174,12 @@ $ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./resul
 ```
 
 ## docker-compose上でバイナリを実行する場合
-
-Step1でCloneしたSGX-EIM-DEMOリポジトリ内に`docker-compose.yaml`のサンプルがあるためこれを編集して実行する．
-
+本リポジトリ内に`docker-compose.yaml`のサンプルがあるため，Cloneしたのちこれを編集して実行する．
+```bash
+# リポジトリのClone
+$ git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
+```
+docker-compose.yaml
 ```yaml
 version: '3.3'
 
