@@ -230,7 +230,7 @@ $ ./cross_app_bin ./settings/settings_firm_b.ini ./data/sample_data2.csv ./resul
 
 ### docker-compose上で事業者A,BのFirmを実行する
 
-docker composeのserviceを1つ増やして同時に起動すれば良い．[SGX-EIM-DEMO/docker-compose.yaml](SGX-EIM-DEMO/docker-compose.yaml)では動作確認用に最初から2つのserviceがあるため以下のコマンドでそのまま実行可能．
+docker composeのserviceを1つ増やして同時に起動すれば良い．[SGX-EIM-DEMO/docker-compose.yaml](docker-compose.yaml)では動作確認用に最初から2つのserviceがあるため以下のコマンドでそのまま実行可能．
 
 ```yaml
 version: '3.3'
