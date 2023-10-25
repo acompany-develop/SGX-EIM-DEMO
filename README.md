@@ -268,9 +268,10 @@ ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
 ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ```
 
-### 同一事業者は同時に実行できない
+### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
 
 リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，失敗する．その場合は次のログが出る．
+ISVのEnclaveが複数の処理を同時に
 
 ```bash
 ERROR: Fail eim request with 'This firm is already set.'.
