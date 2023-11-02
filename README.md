@@ -274,5 +274,5 @@ ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
 ```bash
-Fail eim request with 'This firm has already sent a request.'.
+ERROR: Fail eim request with 'This firm has already sent a request.'.
 ```
