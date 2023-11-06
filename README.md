@@ -270,9 +270,9 @@ ERROR: Fail eim request with 'Threshold values inputted are different.'.
 
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
 
-リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，失敗する．その場合は次のログが出る．
+リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，先に送った方に影響はなく後に送った方のみ失敗する．その場合は次のログが出る．
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
 ```bash
-ERROR: Fail eim request with 'This firm is already set.'.
+ERROR: Fail eim request with 'This firm has already sent a request.'.
 ```
