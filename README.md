@@ -276,3 +276,19 @@ ISVのEnclaveの制約により複数の処理を同時に捌けないため同�
 ```bash
 ERROR: Fail eim request with 'This firm has already sent a request.'.
 ```
+
+## その他のAPI
+### /info
+ISVサーバの状態を取得できる．
+```console
+$ curl <IP>:<port>/info
+{
+  "health" : "healthy",
+  "version" : "v1.0.1"
+}
+```
+### /stop
+ISVサーバを停止できる．何らかの問題が発生した場合に再起動させるために使えるが，Debug用なので将来的には廃止される可能性がある．
+```console
+$ curl <IP>:<port>/stop
+```
