@@ -5,7 +5,7 @@
 | --- | --- |
 | ISV | SGXに関するリクエストを受け付けるServer |
 | Firm | ISVに対してリクエストを送るClient |
-| RA | Remote Attestation，SGXが安全であることを示すためのプロトコル |
+| MAA | Microsoft Azure Attestation，SGXが安全であることを示すためのプロトコル |
 
 # 動作確認済み条件
 
@@ -35,12 +35,12 @@
 - [settings_firm_a.ini](/settings/settings_firm_a.ini)
 - [settings_firm_b.ini](/settings/settings_firm_b.ini)
 
-設定ファイルのうち以下の値はISVに依存して決まるため、検証用ISVを利用したい場合はAcompanyの担当者から配布された値を設定する．
+設定ファイルのうち以下の値はServerに依存して決まるため、検証用Serverを利用したい場合はAcompanyの担当者から配布された値を設定する．
 
 ```ini
 [sp]
-; ISVのURLを記載する
-ISV_URL = ; 検証用環境の`ISV_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
+; ServerのURLを記載する
+SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
 
 ; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
 REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
@@ -50,22 +50,12 @@ REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合は
 SP_PRIVATE_KEY = ; 検証用環境の`SP_PRIVATE_KEY`が必要な場合はAcompanyの担当者に問い合わせてください。
 ```
 
-以下のRAに関する設定は各Firm個別で行う必要がある．詳しくは[EPID Attestationの利用登録方法](/docs/epid_attestation.md)を参照されたい．
+以下のRAに関する設定は各Client個別で行う必要がある．詳しくは[EPID Attestationの利用登録方法](/docs/epid_attestation.md)を参照されたい．
 
 ```ini
-; SPIDを記載（32バイト）
-; SPIDはEPID Attestationページのサブスクリプション画面で取得可能。
-SPID = 
+MAA_URL = ;
 
-; QuoteがLinkableであれば1、Unlinkableであれば0を指定する。
-; Linkable/UnlinkableはEPID Attestationにおけるサブスクリプション時に
-; 設定可能。
-LINKABLE = 
-
-; サブスクリプションキーをプライマリ/セカンダリ共にここで記載する。
-; 両キーははEPID Attestationページのサブスクリプション画面で取得可能。
-IAS_PRIMARY_SUBSCRIPTION_KEY = 
-IAS_SECONDARY_SUBSCRIPTION_KEY = 
+MAA_API_VERSIOM = ;
 ```
 
 
@@ -78,7 +68,7 @@ IAS_SECONDARY_SUBSCRIPTION_KEY =
 
 ### 引数
 ```console
-$ ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
+$ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 
 - <setting_file_name: 文字列>
@@ -105,7 +95,7 @@ $ ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <thres
 
 **引数の個数が間違っている場合**
 ```bash
-ERROR: Usage: ./cross_app_bin <setting_file_name> <intput_filename> <output_filename> <threshold>
+ERROR: Usage: ./cross_table <setting_file_name> <intput_filename> <output_filename> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
@@ -127,21 +117,21 @@ ERROR: # 不備の内容に対応するメッセージ
 ```
 **RA 失敗時**
 ```bash
-ERROR: RA failed. Destruct RA context and Exit program.
+ERROR: RA failed. Clean up and exit program.
 ```
 この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なる．
 
 ISVが落ちている状態で投げた場合
 ```bash
-ERROR: Unknown error. Probably ISV server is down.
+ERROR: Unknown error. Probably SGX server is down.
 ```
-`settings_file`の`REQUIRED_MRENCLAVE`や`REQUIRED_MRSIGNER`の値が間違っている場合
+`settings_file`の`REQUIRED_MRENCLAVE`の値が間違っている場合
 ```bash
-ERROR: Refused RA.
+ERROR: MRENCLAVE mismatched. Reject RA.
 ```
-`settings_file`の`SP_PRIVATE_KEY`や`FIRM_BIT`の値が間違っている場合
+`settings_file`の`REQUIRED_MRSIGNER`の値が間違っている場合
 ```bash
-ERROR: Failed to process msg2 and obtain msg3.
+ERROR: MRSIGNER mismatched. Reject RA.
 ```
 
 
@@ -164,11 +154,11 @@ $ wget https://github.com/acompany-develop/SGX-EIM-DEMO/releases/download/${VERS
 $ unzip SGX-EIM-v${VERSION}-linux-x64.zip
 ```
 
-unzipすると同じディレクトリ内に`cross_app_bin`という実行バイナリがあるので以下のコマンドで実行する．
+unzipすると同じディレクトリ内に`cross_table`という実行バイナリがあるので以下のコマンドで実行する．
 
 ```console
 # 事業者A
-$ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
+$ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 ```
 
 ## docker-compose上でバイナリを実行する場合
@@ -204,7 +194,7 @@ services:
     command:
       - /bin/bash
       - '-c'
-      - ./cross_app_bin settings.ini data.csv result/result.csv 3
+      - ./cross_table settings.ini data.csv result/result.csv 3
 ```
 
 準備ができたらdocker composeコマンドで起動する．
@@ -221,9 +211,9 @@ $ docker-compose up firm_demo
 
 ```console
 # 事業者A
-$ ./cross_app_bin ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
+$ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 # 事業者B
-$ ./cross_app_bin ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
+$ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
 ```
 
 ### docker-compose上で事業者A,BのFirmを実行する
