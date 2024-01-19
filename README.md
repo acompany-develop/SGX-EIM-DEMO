@@ -59,6 +59,7 @@ MAA_URL =
 MAA_API_VERSIOM = 2022-08-01
 
 ; クロス集計表における行・列の選択
+; 0が行（左側），1が列（上側）に対応する
 CLIENT_BIT = ;0または1
 
 ; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定。
