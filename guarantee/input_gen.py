@@ -9,7 +9,7 @@ LINE_COUNT: int = 50_000_000
 ATTR_KINDS: int = 100
 MATCHING_RATE: float = 0.6
 
-CHARACTERS = string.ascii_letters + string.digits
+CHARACTERS = string.ascii_letters + string.digits + "|"
 
 
 # 英数字64文字
@@ -19,7 +19,7 @@ def generate_random_hash() -> str:
 
 # 英数字64文字以下
 def generate_random_attr() -> str:
-    return "".join(random.choices(CHARACTERS, k=random.randint(1, STR_LEN_MAX)))
+    return "".join(random.choices(CHARACTERS, k=STR_LEN_MAX))
 
 
 # 英数字64文字の文字列をcount個生成
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     key_sets = generate_random_hashs(int(LINE_COUNT / MATCHING_RATE))
 
     attrs_a = generate_random_attrs(ATTR_KINDS)
-    write(key_sets, attrs_a, "input_a.csv")
+    write(key_sets, attrs_a, "input_a_10m.csv")
 
     attrs_b = generate_random_attrs(ATTR_KINDS)
-    write(key_sets, attrs_b, "input_b.csv")
+    write(key_sets, attrs_b, "input_b_10m.csv")
