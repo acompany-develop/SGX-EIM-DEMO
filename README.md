@@ -61,10 +61,6 @@ MAA_API_VERSIOM = 2022-08-01
 ; クロス集計表における行・列の選択
 CLIENT_BIT = ;0または1
 
-; CLIENT_BIT の値が正しいかをServerが確認するための文字列
-; CLIENT_BIT によって入れる値が異なっており，検証環境ではCLIENT_BITが0ならid0，CLIENT_BITが1ならid1を入れる
-CLIENT_ID = ;id0またはid1
-
 ; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定。
 ; ISV側はEnclave設定XMLでこれを設定できる。
 MINIMUM_ISVSVN = 0
