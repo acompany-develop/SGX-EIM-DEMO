@@ -5,6 +5,7 @@
 | --- | --- |
 | ISV | SGXに関するリクエストを受け付けるServer |
 | Firm | ISVに対してリクエストを送るClient |
+| RA | Remote Attestation，SGXが安全であることを示すためのプロトコル |
 | MAA | Microsoft Azure Attestation，SGXが安全であることを示すためのプロトコル |
 
 # 動作確認済み条件
