@@ -13,23 +13,13 @@ CHARACTERS = string.ascii_letters + string.digits + "|"
 
 
 # 英数字64文字
-def generate_random_hash() -> str:
-    return "".join(random.choices(CHARACTERS, k=STR_LEN_MAX))
-
-
-# 英数字64文字以下
-def generate_random_attr() -> str:
+def generate_random_str() -> str:
     return "".join(random.choices(CHARACTERS, k=STR_LEN_MAX))
 
 
 # 英数字64文字の文字列をcount個生成
-def generate_random_hashs(count: int) -> list[str]:
-    return [generate_random_hash() for _ in range(count)]
-
-
-# 英数字64文字以下の文字列をcount個生成
-def generate_random_attrs(count: int) -> list[str]:
-    return [generate_random_attr() for _ in range(count)]
+def generate_random_strs_list(count: int) -> list[str]:
+    return [generate_random_str() for _ in range(count)]
 
 
 def write(key_sets: list[str], attrs: list[str], filename: str):
@@ -41,10 +31,10 @@ def write(key_sets: list[str], attrs: list[str], filename: str):
 
 
 if __name__ == "__main__":
-    key_sets = generate_random_hashs(int(LINE_COUNT / MATCHING_RATE))
+    key_sets = generate_random_strs_list(int(LINE_COUNT / MATCHING_RATE))
 
-    attrs_a = generate_random_attrs(ATTR_KINDS)
-    write(key_sets, attrs_a, "input_a_10m.csv")
+    attrs_a = generate_random_strs_list(ATTR_KINDS)
+    write(key_sets, attrs_a, "input_a.csv")
 
-    attrs_b = generate_random_attrs(ATTR_KINDS)
-    write(key_sets, attrs_b, "input_b_10m.csv")
+    attrs_b = generate_random_strs_list(ATTR_KINDS)
+    write(key_sets, attrs_b, "input_b.csv")
