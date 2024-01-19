@@ -22,7 +22,7 @@
 - Docker
     - Docker version 24.0.6, build ed223bc
 
-※1 5000万件で属性パターン数100の場合、Firmの最大メモリ使用量は**約40GB**. 動作条件は以下.
+※1 5000万件で属性パターン数100の場合、Clientの最大メモリ使用量は**約40GB**. 動作条件は以下.
 - 各マッチングに使用するIDが半角英数字64文字(64bytes)以下
 - 両事業者のデータ行数が5000万以下
 - 両事業者の属性パターン数が100以下
@@ -45,17 +45,32 @@ SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担
 ; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
 REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
 REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください。
-
-; 署名・検証で使用するSPの256bit ECDSA秘密鍵。
-SP_PRIVATE_KEY = ; 検証用環境の`SP_PRIVATE_KEY`が必要な場合はAcompanyの担当者に問い合わせてください。
 ```
 
-以下のRAに関する設定は各Client個別で行う必要がある．詳しくは[EPID Attestationの利用登録方法](/docs/epid_attestation.md)を参照されたい．
-
+以下のRAに関する設定は各Client個別で行う必要がある．
+いくつかの値については推奨値が書き込まれている．
 ```ini
-MAA_URL = ;
+; Microsoft Azure Attestationの通信先URLを設定する。
+; Azureで構成証明プロバイダを作成する事でURLは取得する事ができる。
+MAA_URL = 
 
-MAA_API_VERSIOM = ;
+; MAAのAPIバージョンを指定する。
+MAA_API_VERSIOM = 2022-08-01
+
+; クロス集計表における行・列の選択
+CLIENT_BIT = ;0または1
+
+; CLIENT_BIT の値が正しいかをServerが確認するための文字列
+; CLIENT_BIT によって入れる値が異なっており，検証環境ではCLIENT_BITが0ならid0，CLIENT_BITが1ならid1を入れる
+CLIENT_ID = ;id0またはid1
+
+; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定。
+; ISV側はEnclave設定XMLでこれを設定できる。
+MINIMUM_ISVSVN = 0
+
+; ISVに要求するEnclaveのProduct IDを設定。
+; ISV側はEnclave設定XMLでこれを設定できる。
+REQUIRED_ISV_PROD_ID = 0
 ```
 
 
