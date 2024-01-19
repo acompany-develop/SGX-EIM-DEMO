@@ -278,6 +278,14 @@ ISVのEnclaveの制約により複数の処理を同時に捌けないため同�
 ERROR: Fail eim request with 'This firm has already sent a request.'.
 ```
 
+### サーバを再起動させる
+想定外挙動によりサーバがリクエストを正しく捌けなくなった場合，以下のように`/stop` APIを叩くことでサーバを再起動できる．
+```console
+$ curl <IP>:<port>/stop
+```
+このリクエストも通らない場合は手動でサーバを再起動させる必要があるため管理者に連絡する．
+
+
 ## その他のAPI
 ### /info
 ISVサーバの状態を取得できる．
@@ -289,7 +297,7 @@ $ curl <IP>:<port>/info
 }
 ```
 ### /stop
-ISVサーバを停止できる．何らかの問題が発生した場合に再起動させるために使えるが，Debug用なので将来的には廃止される可能性がある．
+ISVサーバを停止できる．何らかの問題が発生した場合に再起動させるために使える．
 ```console
 $ curl <IP>:<port>/stop
 ```
