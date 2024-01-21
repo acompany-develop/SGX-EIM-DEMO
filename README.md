@@ -18,8 +18,7 @@
         - Intel(R) Xeon(R) E-2174G CPU @ 3.80GHz (IBM Cloud)
 - メモリ
     - 64GB以上 ※1
-- Docker
-    - Docker version 24.0.6, build ed223bc
+
 
 ※1 5000万件で属性パターン数100の場合、Clientの最大メモリ使用量は**約40GB**. 動作条件は以下.
 - 各マッチングに使用するIDが半角英数字64文字(64bytes)以下
@@ -149,12 +148,11 @@ ERROR: MRSIGNER mismatched. Reject RA.
 # 実行方法
 
 各事業者ごとにFirmを起動させてクロス集計表を計算する．
-実行方法はバイナリを実行する方法と、Dockerを利用する方法の2パターンある．
 
 **※ 実際にISVに対して通信しにいくため事前にISVが起動していることをISV管理者に確認する．**
 
 
-## 直接バイナリを実行する場合
+## バイナリを実行する方法
 実行するためのバイナリとIASのReport署名ルートCA証明書ファイルが必要なのでそれぞれwgetなどでDownloadする．
 これらのファイルは同一のディレクトリに配置する．
 
@@ -172,48 +170,6 @@ unzipすると同じディレクトリ内に`cross_table`という実行バイ�
 $ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 ```
 
-## docker-compose上でバイナリを実行する場合
-本リポジトリ内に`docker-compose.yaml`のサンプルがあるため，Cloneしたのちこれを編集して実行する．
-```console
-# リポジトリのClone
-$ git clone https://github.com/acompany-develop/SGX-EIM-DEMO.git
-```
-docker-compose.yaml
-```yaml
-version: '3.3'
-
-x-build: &build
-  build:
-    context: .
-    dockerfile: Dockerfile
-    args:
-      VERSION: "<ISVと同じバージョン>"
-
-services:
-  firm_demo:
-    <<: *build
-    volumes:
-    - type: bind
-      source: <Step2で作成した設定ファイルの相対パス> 
-      target: /settings.ini
-    - type: bind
-      source: <Step3で作成したデータの相対パス> 
-      target: /data.csv
-    - type: bind
-      source: <計算結果を保存したいパス>
-      target: /result
-    command:
-      - /bin/bash
-      - '-c'
-      - ./cross_table settings.ini data.csv result/result.csv 3
-```
-
-準備ができたらdocker composeコマンドで起動する．
-
-```console
-$ docker-compose up firm_demo
-```
-
 ## デモ
 
 ### 直接バイナリで事業者A,BのFirmを実行する場合
@@ -225,24 +181,6 @@ $ docker-compose up firm_demo
 $ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 # 事業者B
 $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
-```
-
-### docker-compose上で事業者A,BのFirmを実行する
-
-docker composeのserviceを1つ増やして同時に起動すれば良い．[SGX-EIM-DEMO/docker-compose.yaml](docker-compose.yaml)では動作確認用に最初から2つのserviceがあるため以下のコマンドでそのまま実行可能．
-
-```yaml
-version: '3.3'
-
-services:
-  firm_demo1:
-    # 中略
-  firm_demo2:
-    # 中略(パスはfirm_demo1と異なるはずなので注意)
-```
-
-```console
-$ docker-compose up firm_demo1 firm_demo2
 ```
 
 ## 動作上の注意点
