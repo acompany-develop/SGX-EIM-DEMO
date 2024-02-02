@@ -1,1 +1,2 @@
-result/*.csv
+*.csv
+!data/sample_data*.csv
