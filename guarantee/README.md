@@ -1,15 +1,9 @@
-<style>
-r { color: Red }
-o { color: Orange }
-g { color: Green }
-</style>
-
 # 動作保証について
 入力するcsvに関して動作保証されている要件
 入力形式については [入出力データ仕様](docs/data_in_out.md) を参照 
 ## csv要件
 * 行数5千万以下
-* 利用可能文字は[graphical representation](https://en.cppreference.com/w/cpp/string/byte/isgraph)で定義されたもの．<r>ただし，`,`はID列と属性列の境界文字として解釈されるため、ID列に`,`は利用不可</r>．
+* 利用可能文字は[graphical representation](https://en.cppreference.com/w/cpp/string/byte/isgraph)で定義されたもの．
 ```
 digits (0123456789)
 uppercase letters (ABCDEFGHIJKLMNOPQRSTUVWXYZ)
