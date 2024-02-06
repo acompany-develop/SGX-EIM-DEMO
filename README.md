@@ -61,33 +61,33 @@
 ```ini
 [sp]
 ; ServerのURLを記載する
-SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担当者に問い合わせてください．
+SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
 
-; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する．
-REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください．
-REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください．
+; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
+REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
+REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください。
 ```
 
 以下のRAに関する設定は各Client個別で行う必要がある．
 いくつかの値については推奨値が書き込まれている．
 ```ini
-; Microsoft Azure Attestationの通信先URLを設定する．
-; Azureで構成証明プロバイダを作成する事でURLは取得する事ができる．
+; Microsoft Azure Attestationの通信先URLを設定する。
+; Azureで構成証明プロバイダを作成する事でURLは取得する事ができる。
 MAA_URL = 
 
-; MAAのAPIバージョンを指定する．
+; MAAのAPIバージョンを指定する。
 MAA_API_VERSIOM = 2022-08-01
 
 ; クロス集計表における行・列の選択
 ; 0が行（左側），1が列（上側）に対応する
 CLIENT_BIT = ;0または1
 
-; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定．
-; ISV側はEnclave設定XMLでこれを設定できる．
+; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定。
+; ISV側はEnclave設定XMLでこれを設定できる。
 MINIMUM_ISVSVN = 0
 
-; ISVに要求するEnclaveのProduct IDを設定．
-; ISV側はEnclave設定XMLでこれを設定できる．
+; ISVに要求するEnclaveのProduct IDを設定。
+; ISV側はEnclave設定XMLでこれを設定できる。
 REQUIRED_ISV_PROD_ID = 0
 ```
 
