@@ -8,6 +8,27 @@
 | RA | Remote Attestation，SGXが安全であることを示すためのプロトコル |
 | MAA | Microsoft Azure Attestation，SGXが安全であることを示すためのプロトコル |
 
+# ディレクトリ概要
+```
+.
+├── .logs/ #                        # Firmデモ実行ログファイル出力先
+│   ├── firm_demo1/                 # firm_demo1用
+│   └── firm_demo2/                 # firm_demo1用
+├── data/                           # docker-compose.yamlの実行時ログファイル出力先
+│   ├── sample_data1.csv            # firm_demo1用
+│   └── sample_data2.csv            # firm_demo2用
+├── docs/                           # Firmについてのドキュメント置き場
+├── guarantee/                      # Firm動作保証についてのドキュメント置き場
+├── licenses/
+├── result/                         # Firmデモ用 出力結果csv置き場
+├── settings/                       # Firmデモ用 settingsファイル置き場
+│   ├── settings_client_a.ini       # firm_demo1用
+│   └── settings_client_b.ini       # firm_demo2用
+├── docker-compose.yaml             # Firmデモ用docker-compose.yaml
+├── Dockerfile                      # Firmデモ用Dockerfile
+└── README.md
+```
+
 # 動作確認済み条件
 
 - OS
@@ -40,33 +61,33 @@
 ```ini
 [sp]
 ; ServerのURLを記載する
-SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
+SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担当者に問い合わせてください．
 
-; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
-REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
-REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください。
+; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する．
+REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください．
+REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください．
 ```
 
 以下のRAに関する設定は各Client個別で行う必要がある．
 いくつかの値については推奨値が書き込まれている．
 ```ini
-; Microsoft Azure Attestationの通信先URLを設定する。
-; Azureで構成証明プロバイダを作成する事でURLは取得する事ができる。
+; Microsoft Azure Attestationの通信先URLを設定する．
+; Azureで構成証明プロバイダを作成する事でURLは取得する事ができる．
 MAA_URL = 
 
-; MAAのAPIバージョンを指定する。
+; MAAのAPIバージョンを指定する．
 MAA_API_VERSIOM = 2022-08-01
 
 ; クロス集計表における行・列の選択
 ; 0が行（左側），1が列（上側）に対応する
 CLIENT_BIT = ;0または1
 
-; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定。
-; ISV側はEnclave設定XMLでこれを設定できる。
+; ISVに要求するEnclaveの最小ISVSVN（Security Version Number）を設定．
+; ISV側はEnclave設定XMLでこれを設定できる．
 MINIMUM_ISVSVN = 0
 
-; ISVに要求するEnclaveのProduct IDを設定。
-; ISV側はEnclave設定XMLでこれを設定できる。
+; ISVに要求するEnclaveのProduct IDを設定．
+; ISV側はEnclave設定XMLでこれを設定できる．
 REQUIRED_ISV_PROD_ID = 0
 ```
 
@@ -244,3 +265,7 @@ ISVサーバを停止できる．何らかの問題が発生した場合に再�
 ```console
 $ curl <IP>:<port>/stop
 ```
+
+# 備考
+> [!IMPORTANT]  
+> Firmは実行時に標準出力とファイル出力でログを出力するが，ファイル出力先はbinary実行ディレクトリ内の`.logs/`ディレクトリに固定されている．障害調査時に`.logs/`の提出を依頼する可能性がある．
