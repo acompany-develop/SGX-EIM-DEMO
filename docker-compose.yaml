@@ -20,6 +20,9 @@ services:
     - type: bind
       source: ./result
       target: /result
+    - type: bind
+      source: ./.logs/firm_demo1
+      target: /.logs
     command:
       - /bin/bash
       - '-c'
@@ -37,6 +40,9 @@ services:
     - type: bind
       source: ./result
       target: /result
+    - type: bind
+      source: ./.logs/firm_demo2
+      target: /.logs
     command:
       - /bin/bash
       - '-c'
