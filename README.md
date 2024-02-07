@@ -188,10 +188,8 @@ ValidationError: # 不備の内容に対応するメッセージ
 ```
 **RA 失敗時**
 ```bash
-terminate called after throwing an instance of 'std::runtime_error'
-what():  Fail ra
+AssertionError: Fail ra
 ```
-この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なる．
 
 ISVが落ちている状態で投げた場合
 ```bash
