@@ -248,11 +248,11 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 クロス集計表の閾値は自由に設定することができるが，両事業者が異なる値を設定した場合は処理が失敗する．その場合は次のいずれかのログが出る．
 
 ```bash
-2024-02-07 09:34:46 +0000 | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
+<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
 ```
 
 ```bash
-2024-02-07 09:34:47 +0000 | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
+<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
 ```
 
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
@@ -261,7 +261,7 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
 ```bash
-2024-02-07 09:36:39 +0000 | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
+<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
 ```
 
 ### サーバを再起動させる
