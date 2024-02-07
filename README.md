@@ -140,39 +140,39 @@ ERROR: Input file does not exist.
 ```
 **input_fileの行数が5000万行より多い場合**
 ```bash
-ERROR: <timestamp> | The number of rows of data exceeds 50 million. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: The number of rows of data exceeds 50 million.
 ```
 **input_fileのid列の長さが65文字以上の場合**
 ```bash
-ERROR: <timestamp> | data.csv Line 1 has the key which length exceeds 64. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has the key which length exceeds 64.
 ```
 **input_fileの属性列の長さが65文字以上の場合**
 ```bash
-ERROR: <timestamp> | data.csv Line 1 has the attribute which length exceeds 64. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has the attribute which length exceeds 64.
 ```
 **input_fileに使用不可の文字が含まれる場合**
 ```bash
-ERROR: <timestamp> | data.csv Line 1 contains ' ' | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 contains ' '
 ```
 **input_fileに共通のIDが含まれる場合**
 ```bash
-ERROR: <timestamp> | There are multiple data with key <共通のID> | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: There are multiple data with key "<共通のID>"
 ```
 **input_fileの属性種類数が100より多い場合**
 ```bash
-ERROR: <timestamp> | Number of attribute types exceeds 100. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Number of attribute types exceeds 100.
 ```
 **input_fileのid列が空の場合**
 ```bash
-ERROR: <timestamp> | data.csv Line 1 has empty key. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has empty key.
 ```
 **input_fileの属性列が空の場合**
 ```bash
-ERROR: <timestamp> | data.csv Line 1 has empty attribute. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has empty attribute.
 ```
 **input_fileのid列,属性列が空の場合**
 ```bash
-ERROR: <timestamp> | data.csv Line 1 has no comma. | throw_re_with_log
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: data.csv Line 1 has no comma.
 ```
 **settings_fileの内容に不備があった場合**
 ```bash
