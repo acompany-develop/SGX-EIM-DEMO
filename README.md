@@ -124,83 +124,84 @@ $ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <thresh
 
 
 ### エラーメッセージ
-[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は必ず`ERROR:`で始まっている．
+[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は`ERROR:`を含む以下のformatで出力される．
+```bash
+<timestamp> | ERROR: | <type> | <file>:<function> - <target> | <error message>
+```
+以下では`<error message>`のみ抜粋する．
 
 **引数の個数が間違っている場合**
 ```bash
-ERROR: Usage: ./cross_table <setting_file_name> <intput_filename> <output_filename> <threshold>
+ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
-ERROR: Threshold must be nonnegative integer.
+ValidationError: Threshold must be nonnegative integer. 
 ```
 **input_filename として存在しないfileのpathを指定した場合**
 ```bash
-ERROR: Input file does not exist.
+ValidationError: Input file does not exist.
+```
+** input_fileにデータが存在しない場合
+```bash
+ValidationError: There is no data.
 ```
 **input_fileの行数が5000万行より多い場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: The number of rows of data exceeds 50 million.
+ValidationError: The number of rows of data exceeds 50 million.
 ```
 **input_fileのid列の長さが65文字以上の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has the key which length exceeds 64.
+ValidationError: Line 1 has the key which length exceeds 64.
 ```
 **input_fileの属性列の長さが65文字以上の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has the attribute which length exceeds 64.
+ValidationError: Line 1 has the attribute which length exceeds 64.
 ```
 **input_fileに使用不可の文字が含まれる場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 contains ' '
+ValidationError: Line 1 contains ' '
 ```
 **input_fileに共通のIDが含まれる場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: There are multiple data with key "<共通のID>"
+ValidationError: There are multiple data with key "<共通のID>"
 ```
 **input_fileの属性種類数が100より多い場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Number of attribute types exceeds 100.
+ValidationError: Number of attribute types exceeds 100.
 ```
 **input_fileのid列が空の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has empty key.
+ValidationError: Line 1 has empty key.
 ```
 **input_fileの属性列が空の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has empty attribute.
+ValidationError: Line 1 has empty attribute.
 ```
 **input_fileのid列,属性列が空の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: data.csv Line 1 has no comma.
+ValidationError: data.csv Line 1 has no comma.
 ```
 **settings_fileの内容に不備があった場合**
 ```bash
- INFO: Start settings load.
-ERROR: # 不備の内容に対応するメッセージ
-```
-不備がなかった場合は以下のように表示される．
-```bash
- INFO: Start settings load.
- INFO: Successfully loaded settings.
+ValidationError: # 不備の内容に対応するメッセージ
 ```
 **RA 失敗時**
 ```bash
-ERROR: RA failed. Clean up and exit program.
+AssertionError: Fail ra
 ```
-この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なる．
 
 ISVが落ちている状態で投げた場合
 ```bash
-ERROR: Unknown error. Probably SGX server is down.
+HttpException: Unknown error. Probably SGX server is down. | null | <method> <pattern> | <request parameters>
 ```
 `settings_file`の`REQUIRED_MRENCLAVE`の値が間違っている場合
 ```bash
-ERROR: MRENCLAVE mismatched. Reject RA.
+ValidationError: MRENCLAVE mismatched. Reject RA.
 ```
 `settings_file`の`REQUIRED_MRSIGNER`の値が間違っている場合
 ```bash
-ERROR: MRSIGNER mismatched. Reject RA.
+ValidationError: MRSIGNER mismatched. Reject RA.
 ```
 
 
@@ -246,24 +247,18 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 
 ### 両事業者が実行しなければ動作が終了しない
 
-クロス集計表は2つの事業者がデータを送信して初めて計算が行われる．そのため，片方の事業者だけが処理を実行した場合，永遠に計算が終わらず待機し続けてしまう．その場合は下記のログが出続けることになる．
-
-```bash
-INFO: ==============================================
-INFO: Get Execute Status
-INFO: ==============================================
-```
+クロス集計表は2つの事業者がデータを送信して初めて計算が行われる．そのため，片方の事業者だけが処理を実行した場合，永遠に計算が終わらず待機し続けてしまう．
 
 ### 両事業者が異なる設定で動作させることはできない
 
 クロス集計表の閾値は自由に設定することができるが，両事業者が異なる値を設定した場合は処理が失敗する．その場合は次のいずれかのログが出る．
 
 ```bash
-ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
+HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
 ```
 
 ```bash
-ERROR: Fail eim request with 'Threshold values inputted are different.'.
+HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
 ```
 
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
@@ -272,19 +267,20 @@ ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
 ```bash
-ERROR: Fail eim request with 'This firm has already sent a request.'.
+HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
 ```
 
 ### サーバを再起動させる
-想定外挙動によりサーバがリクエストを正しく捌けなくなった場合，以下のように`/stop` APIを叩くことでサーバを再起動できる．
+想定外挙動によりサーバがリクエストを正しく捌けなくなった場合，サーバは自動で再起動されて正常な状態に戻る．
+再起動されず異常な挙動を起こし続ける場合は以下のように`/stop` APIを叩くことでClient側からサーバを再起動できる．
 ```console
 $ curl <IP>:<port>/stop
 ```
 このリクエストも通らない場合は手動でサーバを再起動させる必要があるため管理者に連絡する．
 
 ### 実行中の処理を強制終了した場合
-クライエントがCtrl+Cなどによって処理を途中で終了させた場合，サーバがリクエストを正しく捌けなくなることがある．
-[サーバを再起動させる](./README.md#サーバを再起動させる)に記載の通り `/stop` APIでサーバを再起動することで正常状態に戻る．
+クライエントがCtrl+Cなどによって処理を途中で終了させた場合，サーバがリクエストを正しく捌けなくなることがある．  
+異常な挙動が起きた場合は，[サーバを再起動させる](./README.md#サーバを再起動させる)に記載の通り サーバは自動で再起動されて再起動することで正常状態に戻る．
 
 ## その他のAPI
 ### /info
