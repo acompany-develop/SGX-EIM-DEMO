@@ -124,19 +124,19 @@ $ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <thresh
 
 
 ### エラーメッセージ
-[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は必ず`ERROR:`で始まっている．
+[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は必ず`ERROR:`が含まれている．
 
 **引数の個数が間違っている場合**
 ```bash
-ERROR: Usage: ./cross_table <setting_file_name> <intput_filename> <output_filename> <threshold>
+<timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - usage | ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
-ERROR: Threshold must be nonnegative integer.
+<timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - -5 | ValidationError: Threshold must be nonnegative integer. 
 ```
 **input_filename として存在しないfileのpathを指定した場合**
 ```bash
-ERROR: Input file does not exist.
+<timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - input_file_a.csva | ValidationError: Input file does not exist.
 ```
 **input_fileの行数が5000万行より多い場合**
 ```bash
@@ -176,31 +176,26 @@ ERROR: Input file does not exist.
 ```
 **settings_fileの内容に不備があった場合**
 ```bash
- INFO: Start settings load.
-ERROR: # 不備の内容に対応するメッセージ
-```
-不備がなかった場合は以下のように表示される．
-```bash
- INFO: Start settings load.
- INFO: Successfully loaded settings.
+<timestamp> | ERROR: | VALIDATION | ../common/ini.hpp: - settings file | ValidationError: # 不備の内容に対応するメッセージ
 ```
 **RA 失敗時**
 ```bash
-ERROR: RA failed. Clean up and exit program.
+terminate called after throwing an instance of 'std::runtime_error'
+what():  Fail ra
 ```
 この場合は失敗の原因によってこのメッセージのさらに数行上に表示されるログの内容が異なる．
 
 ISVが落ちている状態で投げた場合
 ```bash
-ERROR: Unknown error. Probably SGX server is down.
+<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Unknown error. Probably SGX server is down. | null | <method> <pattern> | <request parameters>
 ```
 `settings_file`の`REQUIRED_MRENCLAVE`の値が間違っている場合
 ```bash
-ERROR: MRENCLAVE mismatched. Reject RA.
+<timestamp> | ERROR: | VALIDATION | client_app.cpp:verify_enclave - MRENCLAVE | ValidationError: MRENCLAVE mismatched. Reject RA.
 ```
 `settings_file`の`REQUIRED_MRSIGNER`の値が間違っている場合
 ```bash
-ERROR: MRSIGNER mismatched. Reject RA.
+<timestamp> | ERROR: | VALIDATION | client_app.cpp:verify_enclave - settings file | ValidationError: MRSIGNER mismatched. Reject RA.
 ```
 
 
@@ -246,24 +241,18 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 
 ### 両事業者が実行しなければ動作が終了しない
 
-クロス集計表は2つの事業者がデータを送信して初めて計算が行われる．そのため，片方の事業者だけが処理を実行した場合，永遠に計算が終わらず待機し続けてしまう．その場合は下記のログが出続けることになる．
-
-```bash
-INFO: ==============================================
-INFO: Get Execute Status
-INFO: ==============================================
-```
+クロス集計表は2つの事業者がデータを送信して初めて計算が行われる．そのため，片方の事業者だけが処理を実行した場合，永遠に計算が終わらず待機し続けてしまう．
 
 ### 両事業者が異なる設定で動作させることはできない
 
 クロス集計表の閾値は自由に設定することができるが，両事業者が異なる値を設定した場合は処理が失敗する．その場合は次のいずれかのログが出る．
 
 ```bash
-ERROR: Fail get execute status with 'Threshold values inputtedare different.'.
+2024-02-07 09:34:46 +0000 | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
 ```
 
 ```bash
-ERROR: Fail eim request with 'Threshold values inputted are different.'.
+2024-02-07 09:34:47 +0000 | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
 ```
 
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
@@ -272,7 +261,7 @@ ERROR: Fail eim request with 'Threshold values inputted are different.'.
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
 ```bash
-ERROR: Fail eim request with 'This firm has already sent a request.'.
+2024-02-07 09:36:39 +0000 | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
 ```
 
 ### サーバを再起動させる
