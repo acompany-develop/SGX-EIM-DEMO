@@ -44,7 +44,7 @@
 ※1 5000万件で属性パターン数100の場合、Clientの最大メモリ使用量は**約40GB**. 動作条件は以下.
 - 各マッチングに使用するIDが半角英数字64文字(64bytes)以下
 - 両事業者のデータ行数が5000万以下
-- 両事業者の属性パターン数が100以下  
+- 両事業者の属性パターン数が100以下
 
 入力csvの詳しい動作保証要件は[guarantee](./guarantee/README.md)を参照．
 
@@ -73,7 +73,7 @@ REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合は
 ```ini
 ; Microsoft Azure Attestationの通信先URLを設定する。
 ; Azureで構成証明プロバイダを作成する事でURLは取得する事ができる。
-MAA_URL = 
+MAA_URL =
 
 ; MAAのAPIバージョンを指定する。
 MAA_API_VERSIOM = 2022-08-01
@@ -137,6 +137,38 @@ ERROR: Threshold must be nonnegative integer.
 **input_filename として存在しないfileのpathを指定した場合**
 ```bash
 ERROR: Input file does not exist.
+```
+**input_fileの行数が5000万行より多い場合**
+```bash
+ERROR: <timestamp> | The number of rows of data exceeds 50 million. | throw_re_with_log
+```
+**input_fileのid列の長さが65文字以上の場合**
+```bash
+ERROR: <timestamp> | data.csv Line 1 has the key which length exceeds 64. | throw_re_with_log
+```
+**input_fileの属性列の長さが65文字以上の場合**
+```bash
+ERROR: <timestamp> | data.csv Line 1 has the attribute which length exceeds 64. | throw_re_with_log
+```
+**input_fileに使用不可の文字が含まれる場合**
+```bash
+ERROR: <timestamp> | data.csv Line 1 contains ' ' | throw_re_with_log
+```
+**input_fileに共通のIDが含まれる場合**
+```bash
+ERROR: <timestamp> | There are multiple data with key <共通のID> | throw_re_with_log
+```
+**input_fileの属性種類数が100より多い場合**
+```bash
+ERROR: <timestamp> | Number of attribute types exceeds 100. | throw_re_with_log
+```
+**input_fileのid列が空の場合**
+```bash
+ERROR: <timestamp> | data.csv Line 1 has empty key. | throw_re_with_log
+```
+**input_fileの属性列が空の場合**
+```bash
+ERROR: <timestamp> | data.csv Line 1 has empty attribute. | throw_re_with_log
 ```
 **settings_fileの内容に不備があった場合**
 ```bash
@@ -247,7 +279,7 @@ $ curl <IP>:<port>/stop
 このリクエストも通らない場合は手動でサーバを再起動させる必要があるため管理者に連絡する．
 
 ### 実行中の処理を強制終了した場合
-クライエントがCtrl+Cなどによって処理を途中で終了させた場合，サーバがリクエストを正しく捌けなくなることがある．  
+クライエントがCtrl+Cなどによって処理を途中で終了させた場合，サーバがリクエストを正しく捌けなくなることがある．
 [サーバを再起動させる](./README.md#サーバを再起動させる)に記載の通り `/stop` APIでサーバを再起動することで正常状態に戻る．
 
 ## その他のAPI
