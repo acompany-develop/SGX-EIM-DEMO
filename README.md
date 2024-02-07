@@ -170,6 +170,10 @@ ERROR: <timestamp> | data.csv Line 1 has empty key. | throw_re_with_log
 ```bash
 ERROR: <timestamp> | data.csv Line 1 has empty attribute. | throw_re_with_log
 ```
+**input_fileのid列,属性列が空の場合**
+```bash
+ERROR: <timestamp> | data.csv Line 1 has no comma. | throw_re_with_log
+```
 **settings_fileの内容に不備があった場合**
 ```bash
  INFO: Start settings load.
