@@ -124,63 +124,67 @@ $ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <thresh
 
 
 ### エラーメッセージ
-[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は必ず`ERROR:`が含まれている．
+[動作上の注意点](#動作上の注意点)に記載されている内容以外のエラーメッセージが出るケース．原因を示す行は`ERROR:`を含む以下のformatで出力される．
+```bash
+<timestamp> | ERROR: | <type> | <file>:<function> - <target> | <error message>
+```
+以下では`<error message>`のみ抜粋する．
 
 **引数の個数が間違っている場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - usage | ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
+ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - -5 | ValidationError: Threshold must be nonnegative integer. 
+ValidationError: Threshold must be nonnegative integer. 
 ```
 **input_filename として存在しないfileのpathを指定した場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - input_file_a.csva | ValidationError: Input file does not exist.
+ValidationError: Input file does not exist.
 ```
 ** input_fileにデータが存在しない場合
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - input_file_a.csv | ValidationError: There is no data.
+ValidationError: There is no data.
 ```
 **input_fileの行数が5000万行より多い場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: The number of rows of data exceeds 50 million.
+ValidationError: The number of rows of data exceeds 50 million.
 ```
 **input_fileのid列の長さが65文字以上の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has the key which length exceeds 64.
+ValidationError: Line 1 has the key which length exceeds 64.
 ```
 **input_fileの属性列の長さが65文字以上の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has the attribute which length exceeds 64.
+ValidationError: Line 1 has the attribute which length exceeds 64.
 ```
 **input_fileに使用不可の文字が含まれる場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 contains ' '
+ValidationError: Line 1 contains ' '
 ```
 **input_fileに共通のIDが含まれる場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: There are multiple data with key "<共通のID>"
+ValidationError: There are multiple data with key "<共通のID>"
 ```
 **input_fileの属性種類数が100より多い場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Number of attribute types exceeds 100.
+ValidationError: Number of attribute types exceeds 100.
 ```
 **input_fileのid列が空の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has empty key.
+ValidationError: Line 1 has empty key.
 ```
 **input_fileの属性列が空の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: Line 1 has empty attribute.
+ValidationError: Line 1 has empty attribute.
 ```
 **input_fileのid列,属性列が空の場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: data.csv Line 1 has no comma.
+ValidationError: data.csv Line 1 has no comma.
 ```
 **settings_fileの内容に不備があった場合**
 ```bash
-<timestamp> | ERROR: | VALIDATION | ../common/ini.hpp: - settings file | ValidationError: # 不備の内容に対応するメッセージ
+ValidationError: # 不備の内容に対応するメッセージ
 ```
 **RA 失敗時**
 ```bash
@@ -191,15 +195,15 @@ what():  Fail ra
 
 ISVが落ちている状態で投げた場合
 ```bash
-<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Unknown error. Probably SGX server is down. | null | <method> <pattern> | <request parameters>
+HttpException: Unknown error. Probably SGX server is down. | null | <method> <pattern> | <request parameters>
 ```
 `settings_file`の`REQUIRED_MRENCLAVE`の値が間違っている場合
 ```bash
-<timestamp> | ERROR: | VALIDATION | client_app.cpp:verify_enclave - MRENCLAVE | ValidationError: MRENCLAVE mismatched. Reject RA.
+ValidationError: MRENCLAVE mismatched. Reject RA.
 ```
 `settings_file`の`REQUIRED_MRSIGNER`の値が間違っている場合
 ```bash
-<timestamp> | ERROR: | VALIDATION | client_app.cpp:verify_enclave - settings file | ValidationError: MRSIGNER mismatched. Reject RA.
+ValidationError: MRSIGNER mismatched. Reject RA.
 ```
 
 
@@ -252,11 +256,11 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 クロス集計表の閾値は自由に設定することができるが，両事業者が異なる値を設定した場合は処理が失敗する．その場合は次のいずれかのログが出る．
 
 ```bash
-<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
+HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
 ```
 
 ```bash
-<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
+HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
 ```
 
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
@@ -265,7 +269,7 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
 ```bash
-<timestamp> | ERROR: | HTTP       | http_client.cpp:httpclient::get_json_body - HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
+HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
 ```
 
 ### サーバを再起動させる
