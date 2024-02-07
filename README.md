@@ -138,6 +138,10 @@ $ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <thresh
 ```bash
 <timestamp> | ERROR: | VALIDATION | cross_table.cpp:validate_args - input_file_a.csva | ValidationError: Input file does not exist.
 ```
+** input_fileにデータが存在しない場合
+```bash
+<timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - input_file_a.csv | ValidationError: There is no data.
+```
 **input_fileの行数が5000万行より多い場合**
 ```bash
 <timestamp> | ERROR: | VALIDATION | ../common/treat_line.cpp:read_key_data_and_sort - data.csv | ValidationError: The number of rows of data exceeds 50 million.
