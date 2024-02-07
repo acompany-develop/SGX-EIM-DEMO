@@ -1,2 +1,3 @@
 *.csv
+*.log
 !data/sample_data*.csv
