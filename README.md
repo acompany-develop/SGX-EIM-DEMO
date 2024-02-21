@@ -136,7 +136,7 @@ ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <out
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
-ValidationError: Threshold must be nonnegative integer. 
+ValidationError: Threshold must be nonnegative integer.
 ```
 **input_filename として存在しないfileのpathを指定した場合**
 ```bash
@@ -279,7 +279,7 @@ $ curl <IP>:<port>/stop
 このリクエストも通らない場合は手動でサーバを再起動させる必要があるため管理者に連絡する．
 
 ### 実行中の処理を強制終了した場合
-クライエントがCtrl+Cなどによって処理を途中で終了させた場合，サーバがリクエストを正しく捌けなくなることがある．  
+クライエントがCtrl+Cなどによって処理を途中で終了させた場合，サーバがリクエストを正しく捌けなくなることがある．
 異常な挙動が起きた場合は，[サーバを再起動させる](./README.md#サーバを再起動させる)に記載の通り サーバは自動で再起動されて再起動することで正常状態に戻る．
 
 ## その他のAPI
@@ -299,5 +299,9 @@ $ curl <IP>:<port>/stop
 ```
 
 # 備考
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Firmは実行時に標準出力とファイル出力でログを出力するが，ファイル出力先はbinary実行ディレクトリ内の`.logs/`ディレクトリに固定されている．障害調査時に`.logs/`の提出を依頼する可能性がある．
+
+> [!IMPORTANT]
+> ISVへの同一IPからのリクエストは1分あたり60回までとする. <br>
+> 60回より多くリクエストを送ると`403 Forbidden`が返される.
