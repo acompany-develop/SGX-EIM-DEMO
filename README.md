@@ -263,13 +263,17 @@ HttpException: Unknown error. Probably SGX server is down. | null | POST /get-ex
 
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
 
-リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，先に送った方に影響はなく後に送った方のみ失敗する．その場合は次のログが出る．
+リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，二つのリクエストとも失敗し，Serverの状態は初期化される．
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 
+**一つ目のリクエスト**
+```bash
+HttpException: Server state is probably initialized. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
+```
+**二つ目のリクエスト**
 ```bash
 HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
 ```
-
 ### サーバを再起動させる
 想定外挙動によりサーバがリクエストを正しく捌けなくなった場合，サーバは自動で再起動されて正常な状態に戻る．
 再起動されず異常な挙動を起こし続ける場合は以下のように`/stop` APIを叩くことでClient側からサーバを再起動できる．
@@ -285,13 +289,25 @@ $ curl <IP>:<port>/stop
 ## その他のAPI
 ### /info
 ISVサーバの状態を取得できる．
+`server_state`の説明は[server_state.md](docs/server_state.md)を参照．
 ```console
 $ curl <IP>:<port>/info
 {
-  "health" : "healthy",
-  "version" : "v1.0.1"
+	"health": "healthy",
+	"server_state": {
+		"client0": {
+			"message": "Initialized",
+			"status_code": 0
+		},
+		"client1": {
+			"message": "Initialized",
+			"status_code": 0
+		}
+	},
+	"version": "v1.3.5"
 }
 ```
+
 ### /stop
 ISVサーバを停止できる．何らかの問題が発生した場合に再起動させるために使える．
 ```console
