@@ -265,6 +265,7 @@ HttpException: Unknown error. Probably SGX server is down. | null | POST /get-ex
 
 リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，二つのリクエストとも失敗し，Serverの状態は初期化される．
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
+すでにServerにリクエストを送信したかどうかは[/info](#info) APIから確認できる．
 
 **一つ目のリクエスト**
 ```bash
