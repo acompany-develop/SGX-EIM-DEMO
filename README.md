@@ -257,10 +257,6 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
 ```
 
-```bash
-HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
-```
-
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
 
 リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，先に送った方に影響はなく後に送った方のみ失敗する．その場合は次のログが出る．
@@ -286,6 +282,7 @@ $ curl <IP>:<port>/stop
 ### /info
 ISVサーバの状態を取得できる．
 `server_state`の説明は[server_state.md](docs/server_state.md)を参照．
+以下の例は成形されたものであり，実際には１行で出力される．
 ```console
 $ curl <IP>:<port>/info
 {
@@ -300,7 +297,7 @@ $ curl <IP>:<port>/info
 			"status_code": 0
 		}
 	},
-	"version": "v1.3.5"
+	"version": "v1.4.0"
 }
 ```
 
