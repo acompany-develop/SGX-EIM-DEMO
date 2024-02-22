@@ -257,23 +257,14 @@ $ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/
 HttpException: Threshold values inputted are different. | 500 | POST /eim-request | <request parameters>
 ```
 
-```bash
-HttpException: Unknown error. Probably SGX server is down. | null | POST /get-execute-status | null
-```
-
 ### 同一事業者は同時に実行できない（同時実行数が1リクエスト）
 
-リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，二つのリクエストとも失敗し，Serverの状態は初期化される．
+リクエスト送信後にリクエストを終了させずにもう一度リクエストを送信した場合，先に送った方に影響はなく後に送った方のみ失敗する．その場合は次のログが出る．
 ISVのEnclaveの制約により複数の処理を同時に捌けないため同時実行数が1リクエストのみという制限がある．
 すでにServerにリクエストを送信したかどうかは[/info](#info) APIから確認できる．
 
-**一つ目のリクエスト**
 ```bash
-HttpException: Server state is probably initialized. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
-```
-**二つ目のリクエスト**
-```bash
-HttpException: Server state is broken. Please request from the beginning. | 500 | <method> <pattern> | <request parameters>
+HttpException: This client has already sent a request. | 500 | <method> <pattern> | <request parameters>
 ```
 ### サーバを再起動させる
 想定外挙動によりサーバがリクエストを正しく捌けなくなった場合，サーバは自動で再起動されて正常な状態に戻る．
@@ -291,6 +282,7 @@ $ curl <IP>:<port>/stop
 ### /info
 ISVサーバの状態を取得できる．
 `server_state`の説明は[server_state.md](docs/server_state.md)を参照．
+以下の例は成形されたものであり，実際には１行で出力される．
 ```console
 $ curl <IP>:<port>/info
 {
@@ -305,7 +297,7 @@ $ curl <IP>:<port>/info
 			"status_code": 0
 		}
 	},
-	"version": "v1.3.5"
+	"version": "v1.4.0"
 }
 ```
 
