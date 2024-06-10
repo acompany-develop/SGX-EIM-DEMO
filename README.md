@@ -19,6 +19,7 @@
 │   └── sample_data2.csv            # firm_demo2用
 ├── docs/                           # Firmについてのドキュメント置き場
 ├── guarantee/                      # Firm動作保証についてのドキュメント置き場
+├── map/                            # v1.6.0 で追加されたmap形式のバイナリについてのドキュメント置き場  
 ├── licenses/
 ├── result/                         # Firmデモ用 出力結果csv置き場
 ├── settings/                       # Firmデモ用 settingsファイル置き場
