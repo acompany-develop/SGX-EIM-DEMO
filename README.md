@@ -19,7 +19,6 @@
 │   └── sample_data2.csv            # firm_demo2用
 ├── docs/                           # Firmについてのドキュメント置き場
 ├── guarantee/                      # Firm動作保証についてのドキュメント置き場
-├── map/                            # v1.6.0 で追加されたmap形式のバイナリについてのドキュメント置き場  
 ├── licenses/
 ├── result/                         # Firmデモ用 出力結果csv置き場
 ├── settings/                       # Firmデモ用 settingsファイル置き場
@@ -39,7 +38,7 @@
         - Intel(R) Xeon(R) E-2288G CPU @ 3.70GHz ([Azure Standard DC4s v2](https://learn.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves))
         - Intel(R) Xeon(R) E-2174G CPU @ 3.80GHz (IBM Cloud)
 - メモリ
-    - 128GB以上 ※1
+    - 64GB以上 ※1
 
 
 ※1 5000万件で属性パターン数100の場合、Clientの最大メモリ使用量は**約40GB**. 動作条件は以下.
