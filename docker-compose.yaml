@@ -5,7 +5,7 @@ x-build: &build
     context: .
     dockerfile: Dockerfile
     args:
-      VERSION: "1.3.0"
+      VERSION: "2.0.0"
 
 services:
   firm_demo1:
@@ -26,7 +26,7 @@ services:
     command:
       - /bin/bash
       - '-c'
-      - ./cross_table settings.ini data.csv result/result1.csv 5
+      - ./mapping settings.ini data.csv result/result1.csv 5
 
   firm_demo2:
     <<: *build
@@ -46,4 +46,4 @@ services:
     command:
       - /bin/bash
       - '-c'
-      - ./cross_table settings.ini data.csv result/result2.csv 5
+      - ./mapping settings.ini data.csv result/result2.csv 5
