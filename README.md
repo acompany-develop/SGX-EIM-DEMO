@@ -19,7 +19,6 @@
 │   └── sample_data2.csv            # firm_demo2用
 ├── docs/                           # Firmについてのドキュメント置き場
 ├── guarantee/                      # Firm動作保証についてのドキュメント置き場
-├── map/                            # v1.6.0 で追加されたmap形式のバイナリについてのドキュメント置き場  
 ├── licenses/
 ├── result/                         # Firmデモ用 出力結果csv置き場
 ├── settings/                       # Firmデモ用 settingsファイル置き場
@@ -102,7 +101,7 @@ REQUIRED_ISV_PROD_ID = 0
 
 ### 引数
 ```console
-$ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
+$ ./mapping <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 
 - <setting_file_name: 文字列>
@@ -133,7 +132,7 @@ $ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <thresh
 
 **引数の個数が間違っている場合**
 ```bash
-ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
+ValidationError: Usage: ./mapping <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
@@ -224,11 +223,11 @@ $ wget https://github.com/acompany-develop/SGX-EIM-DEMO/releases/download/${VERS
 $ unzip SGX-EIM-v${VERSION}-linux-x64.zip
 ```
 
-unzipすると同じディレクトリ内に`cross_table`という実行バイナリがあるので以下のコマンドで実行する．
+unzipすると同じディレクトリ内に`mapping`という実行バイナリがあるので以下のコマンドで実行する．
 
 ```console
 # 事業者A
-$ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
+$ ./mapping ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 ```
 
 ## デモ
@@ -239,9 +238,9 @@ $ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/
 
 ```console
 # 事業者A
-$ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
+$ ./mapping ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 # 事業者B
-$ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
+$ ./mapping ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
 ```
 
 ## 動作上の注意点
