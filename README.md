@@ -39,7 +39,7 @@
         - Intel(R) Xeon(R) E-2288G CPU @ 3.70GHz ([Azure Standard DC4s v2](https://learn.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves))
         - Intel(R) Xeon(R) E-2174G CPU @ 3.80GHz (IBM Cloud)
 - メモリ
-    - 64GB以上 ※1
+    - 128GB以上 ※1
 
 
 ※1 5000万件で属性パターン数100の場合、Clientの最大メモリ使用量は**約40GB**. 動作条件は以下.
@@ -102,7 +102,7 @@ REQUIRED_ISV_PROD_ID = 0
 
 ### 引数
 ```console
-$ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
+$ ./mapping <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 
 - <setting_file_name: 文字列>
@@ -133,7 +133,7 @@ $ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <thresh
 
 **引数の個数が間違っている場合**
 ```bash
-ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
+ValidationError: Usage: ./mapping <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```bash
@@ -224,11 +224,11 @@ $ wget https://github.com/acompany-develop/SGX-EIM-DEMO/releases/download/${VERS
 $ unzip SGX-EIM-v${VERSION}-linux-x64.zip
 ```
 
-unzipすると同じディレクトリ内に`cross_table`という実行バイナリがあるので以下のコマンドで実行する．
+unzipすると同じディレクトリ内に`mapping`という実行バイナリがあるので以下のコマンドで実行する．
 
 ```console
 # 事業者A
-$ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
+$ ./mapping ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 ```
 
 ## デモ
@@ -239,9 +239,9 @@ $ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/
 
 ```console
 # 事業者A
-$ ./cross_table ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
+$ ./mapping ./settings/settings_firm_a.ini ./data/sample_data1.csv ./result/result1.csv 3
 # 事業者B
-$ ./cross_table ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
+$ ./mapping ./settings/settings_firm_b.ini ./data/sample_data2.csv ./result/result2.csv 3
 ```
 
 ## 動作上の注意点
