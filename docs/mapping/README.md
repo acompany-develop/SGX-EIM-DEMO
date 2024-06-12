@@ -5,7 +5,6 @@ mappingバイナリについてのドキュメント置き場．
 ```
 .
 ├── README.md
-├── benchmark.md                    # ベンチマーク結果について
 ├── common_error.md                 # よくあるエラーメッセージとその原因について
 ├── data_in_out.md                  # データの入出力形式について
 ├── guarantee.md                    # 動作保証条件について
