@@ -1,4 +1,5 @@
-Serverの`/info`APIを叩いた時に表示される`server_state`について
+ISVサーバの`/info`APIを叩いた時に表示される`server_state`について  
+APIについては [how_to_use.md#info](./how_to_use.md#info) も参照
 
 ```console
 $ curl <IP>:<port>/info
