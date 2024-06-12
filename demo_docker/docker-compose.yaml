@@ -8,42 +8,42 @@ x-build: &build
       VERSION: "2.0.0"
 
 services:
+  firm_demo0:
+    <<: *build
+    volumes:
+    - type: bind
+      source: Client0/settings.ini
+      target: /settings.ini
+    - type: bind
+      source: Client0/sample_data.csv
+      target: /data.csv
+    - type: bind
+      source: Client0
+      target: /result
+    - type: bind
+      source: Client0/.logs
+      target: /.logs
+    command:
+      - /bin/bash
+      - '-c'
+      - ./mapping settings.ini data.csv result/result.csv 5
+
   firm_demo1:
     <<: *build
     volumes:
     - type: bind
-      source: ./settings/settings_client_a.ini
+      source: Client1/settings.ini
       target: /settings.ini
     - type: bind
-      source: ./data/sample_data1.csv
+      source: Client1/sample_data.csv
       target: /data.csv
     - type: bind
-      source: ./result
+      source: Client1
       target: /result
     - type: bind
-      source: ./.logs/firm_demo1
+      source: Client1/.logs
       target: /.logs
     command:
       - /bin/bash
       - '-c'
-      - ./mapping settings.ini data.csv result/result1.csv 5
-
-  firm_demo2:
-    <<: *build
-    volumes:
-    - type: bind
-      source: ./settings/settings_client_b.ini
-      target: /settings.ini
-    - type: bind
-      source: ./data/sample_data2.csv
-      target: /data.csv
-    - type: bind
-      source: ./result
-      target: /result
-    - type: bind
-      source: ./.logs/firm_demo2
-      target: /.logs
-    command:
-      - /bin/bash
-      - '-c'
-      - ./mapping settings.ini data.csv result/result2.csv 5
+      - ./mapping settings.ini data.csv result/result.csv 5

@@ -1,14 +1,11 @@
-# 入出力データ仕様
-2事業者間でIDマッチングを行いクロス集計表を得る．
-
-## 入力形式
+# 入力形式
 
 - カンマ(,)区切りのCSV
 - 1行目にはheaderを記載
 - 1列目にはマッチングで突合に用いるID列を記載
 - 2列目以降には属性を記載
 
-例)
+### 例
 ```csv
 ID,height,weight
 id1,170,70
@@ -16,18 +13,20 @@ id2,180,60
 id3,170,60
 ```
 
-動作保証要件については[動作保証について](guarantee.md)を参照  
+入力ファイルの動作保証要件については[guarantee.md](guarantee.md)を参照  
 
-## 出力形式
+# 出力形式
 - カンマ(,)区切りのCSV
 - 1行目にはheaderを記載
     - header の1列目はnumber_of_rowsを記載
     - 2列目以降には <client_bit>:<attribute> の形式で属性名を記載
-- 1列目にはその属性集合の個数を記載
-- 2列目以降には属性を記載
-- 集計数が `k` 未満の行は出力されない，閾値`k`はバイナリ実行時に引数で指定する
+- 2行目以降には集計結果を記載
+    - 1列目にはその属性集合の個数を記載
+    - 2列目以降には属性を記載
+    - 集計数が閾値`k`未満の行は出力されない  
+      閾値`k`はバイナリ実行時に引数で指定する
 
-例)
+### 例
 ```csv
 number_of_rows,0:height,0:weight,1:dominant
 10,170,60,right
@@ -35,8 +34,8 @@ number_of_rows,0:height,0:weight,1:dominant
 7,180,60,left
 ```
 
-## 入出力例
-- 入力1 
+# 入出力例
+### Client0の入力
 ```
 ID,height,weight
 id1,170,70
@@ -50,7 +49,7 @@ id8,180,60
 id9,170,60
 ```
 
-- 入力2
+### Client1の入力
 ```
 ID,dominant
 id1,right
@@ -64,7 +63,7 @@ id8,left
 id9,right
 ```
 
-- 出力(`k=0`)
+### 出力(`k=0`)
 ```
 number_of_rows,0:height,0:weight,1:dominant
 1,170,60,left
@@ -74,7 +73,7 @@ number_of_rows,0:height,0:weight,1:dominant
 2,180,60,left
 2,180,60,right
 ```
-- 出力(`k=2`)
+### 出力(`k=2`)
 number_of_rowsが2未満の行が出力されない
 ```
 number_of_rows,0:height,0:weight,1:dominant
