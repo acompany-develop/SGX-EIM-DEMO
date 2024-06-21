@@ -26,7 +26,7 @@ services:
     command:
       - /bin/bash
       - '-c'
-      - ./mapping settings.ini data.csv result/result.csv 5
+      - ./cross_table settings.ini data.csv result/result.csv 5
 
   firm_demo1:
     <<: *build
@@ -46,4 +46,4 @@ services:
     command:
       - /bin/bash
       - '-c'
-      - ./mapping settings.ini data.csv result/result.csv 5
+      - ./cross_table settings.ini data.csv result/result.csv 5

@@ -70,9 +70,9 @@ $ unzip SGX-EIM-v${VERSION}-linux-x64.zip
 # 実行
 **※ 実際にISVに対して通信しにいくため事前にISVが起動していることをISV管理者に確認する．**
 
-[バイナリなどの取得](#バイナリなどの取得)で取得した `mapping` バイナリを以下のコマンドで実行する．
+[バイナリなどの取得](#バイナリなどの取得)で取得した `cross_table` バイナリを以下のコマンドで実行する．
 ```console
-$ ./mapping <setting_file_name> <input_file_name> <output_file_name> <threshold>
+$ ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 ## 引数
 - <setting_file_name: 文字列>

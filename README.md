@@ -15,9 +15,14 @@ ISVやFirmはそれぞれServerやClientと記載することもある．
 ├── README.md
 ├── demo_docker/
 ├── docs/
+|   └── cross_table/
 └── licenses　　　　　　　　　　　　　
     └── LICENSE_linux-sgx
 ```
+- [demo_docker/](./demo_docker/README.md): dockerを用いたdemo用コード
+- [docs/cross_table/](./docs/cross_table/README.md): `cross_table`バイナリについてのドキュメント
+- [licenses/LICENSE_linux-sgx](./licenses/LICENSE_linux-sgx): 配布バイナリで利用しているライセンス
+
 
 # 動作確認済み条件
 

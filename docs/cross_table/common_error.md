@@ -9,7 +9,7 @@ Client 側に出るエラーメッセージとその考えられる原因につ�
 # エラーメッセージ
 **引数の個数が間違っている場合**
 ```
-ValidationError: Usage: ./mapping <setting_file_name> <input_file_name> <output_file_name> <threshold>
+ValidationError: Usage: ./cross_table <setting_file_name> <input_file_name> <output_file_name> <threshold>
 ```
 **threshold として非負整数以外を入力した場合**
 ```

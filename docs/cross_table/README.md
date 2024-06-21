@@ -1,16 +1,21 @@
 # 概要
-mappingバイナリについてのドキュメント置き場．
+cross_tableバイナリについてのドキュメント置き場．
 
 # ディレクトリ概要
 ```
 .
 ├── README.md
-├── common_error.md                 # よくあるエラーメッセージとその原因について
-├── data_in_out.md                  # データの入出力形式について
-├── guarantee.md                    # 動作保証条件について
-├── how_to_use.md                   # バイナリの使い方
-└── server_state.md                 # ISVサーバの状態説明
+├── common_error.md
+├── data_in_out.md
+├── guarantee.md
+├── how_to_use.md
+└── server_state.md
 ```
+- [common_error.md](./common_error.md): よくあるエラーメッセージとその原因について
+- [data_in_out.md](./data_in_out.md): データの入出力形式について
+- [guarantee.md](./guarantee.md): 動作保証条件について
+- [how_to_use.md](./how_to_use.md): バイナリの使い方
+- [server_state.md](./server_state.md): ISVサーバの状態説明
 
 
 # 入出力の簡単なイメージ
