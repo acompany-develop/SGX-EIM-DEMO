@@ -35,7 +35,7 @@ Serverが立っている状態で，`docker-compose.yaml` を用いてコンテ�
 
 `docker-compose.yaml` に書かれている
 ```
-./mapping settings.ini data.csv result/result.csv 5
+./cross_table settings.ini data.csv result/result.csv 5
 ```
 の末尾の5を書き換えることで閾値を好きな値に指定出来る．（閾値については<font color="Red">todo</font>を参照）  
 firm_demo0, firm_demo1 両方の閾値を同じ値にしないとエラーが出ることに注意．
