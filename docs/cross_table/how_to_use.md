@@ -49,6 +49,19 @@ MINIMUM_ISVSVN = 0
 REQUIRED_ISV_PROD_ID = 0
 ```
 
+下記は認証認可をするためです。下記のAcompanyの担当者から配布された値を設定する．
+```ini
+[AuthorizationAuthentication]
+CLIENT_ID_FOR_FIRM_TO_PETS_AUTHORIZATION = ; 例：12345abcde12345abcde
+CLIENT_SECRET_FOR_FIRM_TO_PETS_AUTHORIZATION = ; 例：67890abcde67890abcde67890abcde67890abcde
+GRANT_TYPE_FOR_CLIENT_CREDENTIALS_FLOW = ; 例：client_credentials
+AUDIENCE = ; 例：https://auth.example.com/api2/
+AUTH_SERVER_URL = ; 例：auth.example.com/
+TOKEN_ENDPOINT = ; 例：/oauth2/token
+CONTENT_TYPE = ; 例：application/json
+ISSUER = ; 例：https://auth.example.com/
+PUBLIC_KEYS_URL = ; 例：/.well-known/jwks.json
+```
 
 ## データの用意
 各事業者ごとにクロス集計表を取得するためのデータを用意する．
