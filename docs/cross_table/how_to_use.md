@@ -24,6 +24,17 @@ SERVER_URL = ; 検証用環境の`SERVER_URL`が必要な場合はAcompanyの担
 ; ISVで動作するEnclaveのMRENCLAVEとMRSIGNERを指定する。
 REQUIRED_MRENCLAVE = ; 検証用環境の`REQUIRED_MRENCLAVE`が必要な場合はAcompanyの担当者に問い合わせてください。
 REQUIRED_MRSIGNER = ; 検証用環境の`REQUIRED_MRSIGNER`が必要な場合はAcompanyの担当者に問い合わせてください。
+
+[AuthorizationAuthentication]
+CLIENT_ID_FOR_FIRM_TO_PETS_AUTHORIZATION = ; 検証用環境の`CLIENT_ID_FOR_FIRM_TO_PETS_AUTHORIZATION`が必要な場合はAcompanyの担当者に問い合わせてください。
+CLIENT_SECRET_FOR_FIRM_TO_PETS_AUTHORIZATION = ; 検証用環境の`CLIENT_SECRET_FOR_FIRM_TO_PETS_AUTHORIZATION`が必要な場合はAcompanyの担当者に問い合わせてください。
+GRANT_TYPE_FOR_CLIENT_CREDENTIALS_FLOW = ; 検証用環境の`GRANT_TYPE_FOR_CLIENT_CREDENTIALS_FLOW`が必要な場合はAcompanyの担当者に問い合わせてください。
+AUDIENCE = ; 検証用環境の`AUDIENCE`が必要な場合はAcompanyの担当者に問い合わせてください。
+AUTH_SERVER_URL = ; 検証用環境の`AUTH_SERVER_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
+TOKEN_ENDPOINT = ; 検証用環境の`TOKEN_ENDPOINT`が必要な場合はAcompanyの担当者に問い合わせてください。
+CONTENT_TYPE = ; 検証用環境の`CONTENT_TYPE`が必要な場合はAcompanyの担当者に問い合わせてください。
+ISSUER = ; 検証用環境の`ISSUER`が必要な場合はAcompanyの担当者に問い合わせてください。
+PUBLIC_KEYS_URL = ; 検証用環境の`PUBLIC_KEYS_URL`が必要な場合はAcompanyの担当者に問い合わせてください。
 ```
 
 以下のRAに関する設定は各Firmが個別で行う必要がある．
@@ -47,20 +58,6 @@ MINIMUM_ISVSVN = 0
 ; ISVに要求するEnclaveのProduct IDを設定。
 ; ISV側はEnclave設定XMLでこれを設定できる。
 REQUIRED_ISV_PROD_ID = 0
-```
-
-下記は認証認可をするためです。下記のAcompanyの担当者から配布された値を設定する．
-```ini
-[AuthorizationAuthentication]
-CLIENT_ID_FOR_FIRM_TO_PETS_AUTHORIZATION = ; 例：12345abcde12345abcde
-CLIENT_SECRET_FOR_FIRM_TO_PETS_AUTHORIZATION = ; 例：67890abcde67890abcde67890abcde67890abcde
-GRANT_TYPE_FOR_CLIENT_CREDENTIALS_FLOW = ; 例：client_credentials
-AUDIENCE = ; 例：https://auth.example.com/api2/
-AUTH_SERVER_URL = ; 例：auth.example.com/
-TOKEN_ENDPOINT = ; 例：/oauth2/token
-CONTENT_TYPE = ; 例：application/json
-ISSUER = ; 例：https://auth.example.com/
-PUBLIC_KEYS_URL = ; 例：/.well-known/jwks.json
 ```
 
 ## データの用意
