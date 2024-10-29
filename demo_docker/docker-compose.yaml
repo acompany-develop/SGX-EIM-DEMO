@@ -5,7 +5,7 @@ x-build: &build
     context: .
     dockerfile: Dockerfile
     args:
-      VERSION: "2.0.0"
+      VERSION: "2.1.0"
 
 services:
   firm_demo0:
