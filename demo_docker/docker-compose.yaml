@@ -10,18 +10,19 @@ x-build: &build
 services:
   firm_demo0:
     <<: *build
+    platform: linux/amd64
     volumes:
     - type: bind
-      source: Client0/settings.ini
+      source: bind/Client0/settings.ini
       target: /settings.ini
     - type: bind
-      source: Client0/sample_data.csv
+      source: bind/Client0/sample_data.csv
       target: /data.csv
     - type: bind
-      source: Client0
+      source: bind/Client0
       target: /result
     - type: bind
-      source: Client0/.logs
+      source: bind/Client0/.logs
       target: /.logs
     command:
       - /bin/bash
@@ -30,18 +31,19 @@ services:
 
   firm_demo1:
     <<: *build
+    platform: linux/amd64
     volumes:
     - type: bind
-      source: Client1/settings.ini
+      source: bind/Client1/settings.ini
       target: /settings.ini
     - type: bind
-      source: Client1/sample_data.csv
+      source: bind/Client1/sample_data.csv
       target: /data.csv
     - type: bind
-      source: Client1
+      source: bind/Client1
       target: /result
     - type: bind
-      source: Client1/.logs
+      source: bind/Client1/.logs
       target: /.logs
     command:
       - /bin/bash
