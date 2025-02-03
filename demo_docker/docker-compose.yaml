@@ -1,0 +1,51 @@
+version: '3.3'
+
+x-build: &build
+  build:
+    context: .
+    dockerfile: Dockerfile
+    args:
+      VERSION: "2.1.0"
+
+services:
+  firm_demo0:
+    <<: *build
+    platform: linux/amd64
+    volumes:
+    - type: bind
+      source: bind/Client0/settings.ini
+      target: /settings.ini
+    - type: bind
+      source: bind/Client0/sample_data.csv
+      target: /data.csv
+    - type: bind
+      source: bind/Client0
+      target: /result
+    - type: bind
+      source: bind/Client0/.logs
+      target: /.logs
+    command:
+      - /bin/bash
+      - '-c'
+      - ./cross_table settings.ini data.csv result/result.csv 5
+
+  firm_demo1:
+    <<: *build
+    platform: linux/amd64
+    volumes:
+    - type: bind
+      source: bind/Client1/settings.ini
+      target: /settings.ini
+    - type: bind
+      source: bind/Client1/sample_data.csv
+      target: /data.csv
+    - type: bind
+      source: bind/Client1
+      target: /result
+    - type: bind
+      source: bind/Client1/.logs
+      target: /.logs
+    command:
+      - /bin/bash
+      - '-c'
+      - ./cross_table settings.ini data.csv result/result.csv 5
